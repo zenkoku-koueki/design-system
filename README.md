@@ -1,12 +1,16 @@
 # 全国公益法人協会グループ Design System
 
+**見本帳（ブラウザで見る）: https://zenkoku-koueki.github.io/design-system/**
+
+
 グループ各サイト・印刷物・広報物のブランド資産ガイドライン。**本リポジトリが正典**であり、各実装（Web / 印刷）はここから写す。
 
 | ファイル | 中身 |
 | --- | --- |
 | **[DESIGN.md](./DESIGN.md)** | 規定の本文。配色・タイポグラフィ・余白・部品・ロゴ規定。現在 **v1.3**（2026.08） |
-| **[styleguide.html](./styleguide.html)** | 見本帳。色見本・型スケール・部品を1ページで確認できる。ブラウザで開くだけ（ビルド不要）。**DESIGN.md と同じ版に揃えて更新する** |
+| **[styleguide.html](./styleguide.html)** | 見本帳。色見本・型スケール・部品を1ページで確認できる。[GitHub Pages で公開](https://zenkoku-koueki.github.io/design-system/styleguide.html)（ビルド不要・`main` に push すれば反映）。**DESIGN.md と同じ版に揃えて更新する** |
 | `assets/` | ロゴ資産（SVG / PNG）。協会ロゴ・財団ロゴ、透過版・白縁ぼかし版 |
+| `index.html` | Pages のトップ。見本帳と DESIGN.md への入口 |
 
 対象: 協会サイト（koueki.jp）／財団サイト（koueki.or.jp）／各サービスサイト・LP／パンフレット・PDF などの印刷物。
 
