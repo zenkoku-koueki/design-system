@@ -1,0 +1,2348 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>全国公益法人協会 — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* Brand */
+    --navy-900: #0E2147;
+    --navy-800: #15305F;
+    --navy-700: #1B3F77;
+    --navy-600: #234E91;
+    --navy-500: #2B62AE;       /* Primary medium blue */
+    --blue-600: #2276BE;       /* v1.1: CTA地・白地の小さい文字（AA 4.77:1） */
+    --blue-500: #2F8BD2;       /* 装飾・罫・大きい図形のみ（白文字では 3.66:1） */
+    --blue-400: #4FA6E2;
+    --blue-300: #7BC1ED;
+    --blue-200: #BFE0F4;
+    --blue-100: #E6F3FB;
+
+    /* Accent — 原則使用しない。「見落とし不可」の1点に限り例外使用。
+       ヒーロー画像のキャッチをそのまま転載するときなど、「使わないと伝わらない」場面だけ。 */
+    --orange-700: #B8551E;
+    --orange-600: #C66B2D;
+    --orange-500: #D87C3A;        /* Primary accent */
+    --orange-400: #E59458;
+    --orange-200: #F6D9C2;
+    --orange-100: #FBEEE2;
+
+    /* Neutrals (cool gray) */
+    --ink-950: #0B1220;
+    --ink-900: #161E2D;
+    --ink-800: #2A3243;
+    --ink-700: #3F4759;
+    --ink-600: #5A6376;
+    --ink-500: #7B8497;
+    --ink-400: #A2A9B8;
+    --ink-300: #C7CCD6;
+    --ink-200: #E2E5EC;
+    --ink-100: #F1F3F7;
+    --ink-50:  #F8F9FB;
+    --white:   #FFFFFF;
+
+    /* Semantic — 緑は使用しません。完了/成功はNavyで表現 */
+    --success: #1B3F77;     /* Navy-700 を流用（緑禁則） */
+    --warning: #B8551E;     /* v1.1: Orange 700 — 白文字を載せても 4.82:1 */
+    --danger:  #C24444;     /* v1.1: 旧 #D04C4C は白地 4.36:1 で AA 未達 */
+
+    /* Spacing scale (4pt base) */
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --s-5: 24px;
+    --s-6: 32px;
+    --s-7: 48px;
+    --s-8: 64px;
+    --s-9: 96px;
+
+    /* Radius */
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 16px;
+    --r-xl: 24px;
+    --r-pill: 999px;
+
+    /* Shadows */
+    --sh-1: 0 1px 2px rgba(14,33,71,.06), 0 1px 1px rgba(14,33,71,.04);
+    --sh-2: 0 4px 12px rgba(14,33,71,.08), 0 2px 4px rgba(14,33,71,.04);
+    --sh-3: 0 12px 32px rgba(14,33,71,.12), 0 4px 8px rgba(14,33,71,.06);
+    --sh-4: 0 24px 60px rgba(14,33,71,.18), 0 8px 16px rgba(14,33,71,.08);
+
+    /* Type */
+    --ff-jp: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+    --ff-jp-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    --ff-en: "Inter", "Noto Sans JP", system-ui, sans-serif;
+    --ff-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  *,*::before,*::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--ff-jp);
+    color: var(--ink-900);
+    background: var(--ink-50);
+    font-feature-settings: "palt" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.7;
+  }
+  img { max-width: 100%; display: block; }
+
+  /* ============ Page chrome ============ */
+  .page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 var(--s-6);
+  }
+  .doc-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(248,249,251,.85);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--ink-200);
+  }
+  .doc-nav-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 14px var(--s-6);
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+  }
+  .doc-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: var(--navy-800);
+    letter-spacing: .02em;
+  }
+  .doc-nav-brand-mark {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--blue-300), var(--navy-700));
+  }
+  .doc-nav-links {
+    display: flex;
+    gap: var(--s-5);
+    margin-left: auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .doc-nav-links::-webkit-scrollbar { display: none; }
+  .doc-nav-links a {
+    color: var(--ink-600);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 6px 2px;
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .doc-nav-links a:hover { color: var(--navy-700); border-color: var(--blue-400); }
+
+  /* ============ Hero of doc ============ */
+  .doc-hero {
+    position: relative;
+    padding: 96px 0 80px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 0%, rgba(75,166,226,.18), transparent 60%),
+      radial-gradient(ellipse 50% 70% at 0% 100%, rgba(43,98,174,.14), transparent 60%),
+      linear-gradient(180deg, #fff 0%, var(--ink-50) 100%);
+    border-bottom: 1px solid var(--ink-200);
+  }
+  .doc-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--ink-200) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ink-200) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: -1px -1px;
+    opacity: .35;
+    mask-image: radial-gradient(ellipse 60% 70% at 50% 30%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 30%, #000 30%, transparent 75%);
+    pointer-events: none;
+  }
+  .doc-hero-inner { position: relative; }
+  .doc-hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--ff-en);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .22em;
+    color: var(--blue-600);
+    text-transform: uppercase;
+    margin-bottom: var(--s-4);
+  }
+  .doc-hero-eyebrow::before {
+    content: "";
+    width: 28px; height: 2px;
+    background: var(--blue-500);
+  }
+  .doc-hero h1 {
+    font-size: clamp(40px, 5.4vw, 68px);
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    font-weight: 900;
+    color: var(--navy-900);
+    margin: 0 0 var(--s-5);
+  }
+  .doc-hero h1 .accent {
+    background: linear-gradient(120deg, var(--navy-700), var(--blue-500));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .doc-hero p {
+    font-size: 18px;
+    color: var(--ink-700);
+    max-width: 720px;
+    margin: 0 0 var(--s-6);
+  }
+  .doc-hero-meta {
+    display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5);
+    color: var(--ink-600);
+    font-size: 13px;
+    font-family: var(--ff-en);
+  }
+  .doc-hero-meta strong { color: var(--navy-800); font-weight: 600; }
+
+  /* ============ Section ============ */
+  section.ds {
+    padding: 96px 0 24px;
+    border-bottom: 1px solid var(--ink-200);
+  }
+  section.ds:last-of-type { border-bottom: none; }
+  .ds-head {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--s-7);
+    margin-bottom: var(--s-7);
+  }
+  .ds-head-tag {
+    font-family: var(--ff-en);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    color: var(--blue-600);
+    text-transform: uppercase;
+  }
+  .ds-head-num {
+    display: block;
+    font-family: var(--ff-en);
+    font-size: 13px;
+    color: var(--ink-400);
+    margin-bottom: 6px;
+  }
+  .ds-head h2 {
+    font-size: 36px;
+    margin: 0 0 var(--s-3);
+    color: var(--navy-900);
+    letter-spacing: -.005em;
+    font-weight: 700;
+  }
+  .ds-head p {
+    color: var(--ink-700);
+    margin: 0;
+    max-width: 640px;
+  }
+
+  .subhead {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-800);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    font-family: var(--ff-en);
+    margin: var(--s-7) 0 var(--s-4);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ink-200);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5); }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); }
+  .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s-3); }
+  @media (max-width: 900px) {
+    .grid-2,.grid-3,.grid-4,.grid-6 { grid-template-columns: repeat(2, 1fr); }
+    .ds-head { grid-template-columns: 1fr; gap: var(--s-4); }
+  }
+
+  /* ============ Color tokens ============ */
+  .swatch {
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    box-shadow: var(--sh-1);
+  }
+  .swatch-color {
+    aspect-ratio: 4 / 3;
+    position: relative;
+  }
+  .swatch-meta {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .swatch-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-900);
+    font-family: var(--ff-en);
+  }
+  .swatch-jp {
+    font-size: 11px;
+    color: var(--ink-600);
+  }
+  .swatch-hex {
+    font-size: 11px;
+    color: var(--ink-600);
+    font-family: var(--ff-mono);
+    margin-top: 4px;
+  }
+  .swatch-tag {
+    position: absolute;
+    top: 10px; left: 10px;
+    background: rgba(255,255,255,.85);
+    color: var(--navy-800);
+    border-radius: var(--r-pill);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    font-family: var(--ff-en);
+    letter-spacing: .05em;
+  }
+  .swatch.dark .swatch-tag { background: rgba(255,255,255,.18); color: #fff; }
+
+  .scale {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    border: 1px solid var(--ink-200);
+  }
+  .scale > div {
+    aspect-ratio: 1 / 1.1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8px 6px;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,.85);
+  }
+  .scale > div.lt { color: var(--ink-700); }
+  .scale > div .v { font-weight: 600; }
+  .scale-label {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-600);
+    font-family: var(--ff-en);
+  }
+
+  /* ============ Type ============ */
+  .type-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: baseline;
+    padding: var(--s-5) 0;
+    border-top: 1px solid var(--ink-200);
+  }
+  .type-row:first-child { border-top: none; }
+  .type-tag {
+    font-size: 12px;
+    color: var(--ink-600);
+    font-family: var(--ff-en);
+    font-weight: 500;
+  }
+  .type-tag b { color: var(--navy-800); display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .type-tag .px { font-family: var(--ff-mono); }
+  .type-sample { color: var(--navy-900); }
+  .ts-display { font-size: 64px; font-weight: 900; line-height: 1.05; letter-spacing: -.015em; }
+  .ts-h1 { font-size: 44px; font-weight: 700; line-height: 1.2; letter-spacing: -.005em; }
+  .ts-h2 { font-size: 32px; font-weight: 700; line-height: 1.3; }
+  .ts-h3 { font-size: 22px; font-weight: 700; line-height: 1.45; }
+  .ts-lead { font-size: 18px; line-height: 1.7; color: var(--ink-700); font-weight: 500; }
+  .ts-body { font-size: 16px; line-height: 1.8; color: var(--ink-700); }
+  .ts-small { font-size: 13px; line-height: 1.7; color: var(--ink-600); }
+  .ts-en { font-family: var(--ff-en); font-size: 28px; font-weight: 700; letter-spacing: .04em; color: var(--navy-700); }
+  .ts-serif { font-family: var(--ff-jp-serif); font-size: 44px; font-weight: 600; line-height: 1.4; letter-spacing: .02em; color: var(--navy-900); }
+  .ts-body15 { font-size: 15px; line-height: 1.8; color: var(--ink-700); }
+  .ts-small14 { font-size: 14px; line-height: 1.8; color: var(--ink-600); }
+  /* AA 補正表 */
+  .ds-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid var(--ink-200); border-radius: var(--r-md); overflow: hidden; }
+  .ds-table th, .ds-table td { padding: 10px 14px; border-bottom: 1px solid var(--ink-200); text-align: left; vertical-align: middle; line-height: 1.6; }
+  .ds-table thead th { background: var(--navy-700); color: #fff; font-weight: 700; font-size: 12px; letter-spacing: .02em; border-bottom: none; }
+  .ds-table tr:last-child td { border-bottom: none; }
+  .ds-table td + td, .ds-table th + th { border-left: 1px solid var(--ink-200); }
+  .ds-table thead th + th { border-left: 1px solid rgba(255,255,255,.15); }
+  .ratio { font-family: var(--ff-en); font-feature-settings: "tnum" 1; font-weight: 700; }
+  .ratio.ng { color: var(--danger); }
+  .ratio.ok { color: var(--navy-700); }
+  .chip-color { display: inline-flex; align-items: center; gap: 7px; font-family: var(--ff-mono); font-size: 12px; }
+  .chip-color::before { content: ""; width: 14px; height: 14px; border-radius: 4px; background: var(--c); border: 1px solid rgba(14,33,71,.12); }
+  /* 写真上の白ハロのデモ */
+  .halo-demo { position: relative; height: 240px; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--ink-200);
+    background: linear-gradient(115deg, #3E7BAF 0%, #5E9AC8 28%, #9CC3E0 52%, #DCEAF5 78%, #F4F8FC 100%); display: grid; align-content: center; padding: 0 28px; }
+  .halo-demo .halo-text { font-family: var(--ff-jp-serif); font-size: 26px; font-weight: 600; letter-spacing: .02em; line-height: 1.4; color: var(--navy-900);
+    text-shadow: 0 0 2px rgba(255,255,255,.95), 0 0 8px rgba(255,255,255,.9), 0 0 20px rgba(255,255,255,.75), 0 0 40px rgba(255,255,255,.55); }
+  .halo-demo .halo-plain { font-family: var(--ff-jp-serif); font-size: 26px; font-weight: 600; letter-spacing: .02em; line-height: 1.4; color: var(--navy-900); }
+  .focus-demo { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 12px 28px; border-radius: var(--r-pill);
+    background: var(--blue-600); color: #fff; font-size: 15px; font-weight: 700; outline: 2px solid var(--blue-600); outline-offset: 2px; }
+
+  /* ============ Spacing scale viz ============ */
+  .space-row {
+    display: grid;
+    grid-template-columns: 80px 80px 1fr;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--ink-200);
+    font-family: var(--ff-en);
+  }
+  .space-row:last-child { border-bottom: none; }
+  .space-row .name { font-weight: 700; color: var(--navy-800); }
+  .space-row .px { color: var(--ink-600); font-family: var(--ff-mono); font-size: 13px; }
+  .space-bar {
+    height: 14px;
+    background: linear-gradient(90deg, var(--blue-400), var(--blue-300));
+    border-radius: 4px;
+  }
+
+  /* ============ Radius / Shadow ============ */
+  .radius-card, .shadow-card, .icon-card {
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    padding: var(--s-5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-3);
+  }
+  .radius-card { border-radius: var(--r-md); }
+  .radius-card .demo {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--blue-400), var(--navy-600));
+  }
+  .radius-card .lbl, .shadow-card .lbl, .icon-card .lbl {
+    font-family: var(--ff-en);
+    font-size: 12px;
+    color: var(--ink-600);
+  }
+  .radius-card .lbl b, .shadow-card .lbl b { color: var(--navy-800); display: block; font-size: 13px; }
+  .shadow-card { background: var(--ink-50); padding: var(--s-7) var(--s-5); }
+  .shadow-card .demo {
+    width: 100%;
+    height: 80px;
+    background: var(--white);
+    border-radius: var(--r-md);
+    border: 1px solid var(--ink-100);
+  }
+
+  /* ============ Components: Buttons ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--ff-jp);
+    font-weight: 700;
+    border-radius: var(--r-pill);
+    padding: 14px 28px;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid transparent;
+    font-size: 15px;
+    line-height: 1;
+    transition: transform .12s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary {
+    background: var(--blue-600);
+    color: var(--white);
+    box-shadow: 0 6px 14px rgba(47,139,210,.32);
+  }
+  .btn-primary:hover { background: var(--navy-700); box-shadow: 0 10px 22px rgba(34,118,190,.30); }
+  .btn-navy {
+    background: var(--navy-700);
+    color: var(--white);
+    box-shadow: 0 6px 14px rgba(27,63,119,.28);
+  }
+  .btn-navy:hover { background: var(--navy-600); }
+  .btn-outline {
+    background: transparent;
+    color: var(--navy-700);
+    border-color: var(--navy-700);
+  }
+  .btn-outline:hover { background: var(--navy-700); color: var(--white); }
+  .btn-ghost {
+    background: var(--ink-100);
+    color: var(--navy-800);
+  }
+  .btn-ghost:hover { background: var(--ink-200); }
+  .btn-link {
+    background: transparent;
+    color: var(--navy-700);
+    padding: 6px 0;
+    border-radius: 0;
+    border-bottom: 2px solid var(--blue-400);
+  }
+  .btn-link:hover { color: var(--navy-700); }
+  .btn-sm { padding: 9px 18px; font-size: 13px; }
+  .btn-lg { padding: 18px 36px; font-size: 17px; }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
+
+  /* ============ Components: Badges (eyebrow / pill) ============ */
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy-800);
+    color: var(--white);
+    border-radius: var(--r-pill);
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+  .badge-pill.outline {
+    background: transparent;
+    color: var(--navy-800);
+    border: 1.5px solid var(--navy-800);
+  }
+  .badge-pill.accent {
+    background: var(--blue-600);
+    color: var(--white);
+  }
+  .badge-pill .dot {
+    width: 6px; height: 6px;
+    background: var(--blue-300);
+    border-radius: 50%;
+  }
+
+  .eyebrow-en {
+    font-family: var(--ff-en);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .26em;
+    color: var(--blue-600);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow-en::before, .eyebrow-en::after {
+    content: ""; width: 22px; height: 1.5px; background: currentColor;
+  }
+  .eyebrow-en.solo::after { display: none; }
+
+  /* ============ Cards ============ */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-lg);
+    padding: var(--s-5);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover { box-shadow: var(--sh-3); transform: translateY(-2px); }
+  .card .ico {
+    width: 44px; height: 44px;
+    border-radius: var(--r-md);
+    background: var(--blue-100);
+    color: var(--blue-500);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: var(--s-3);
+  }
+  .card h4 {
+    margin: 0 0 6px;
+    font-size: 17px;
+    color: var(--navy-900);
+  }
+  .card p { margin: 0; color: var(--ink-600); font-size: 14px; }
+
+  /* Stat card */
+  .stat {
+    background: linear-gradient(135deg, var(--navy-800), var(--navy-700));
+    color: var(--white);
+    border-radius: var(--r-lg);
+    padding: var(--s-5);
+    position: relative;
+    overflow: hidden;
+  }
+  .stat::after {
+    content: "";
+    position: absolute;
+    right: -30px; bottom: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,193,237,.5), transparent 70%);
+  }
+  .stat .num {
+    font-family: var(--ff-en);
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 8px;
+    background: linear-gradient(120deg, #fff, var(--blue-200));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat .lbl { font-size: 13px; color: var(--blue-200); }
+
+  /* ============ Forms ============ */
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 13px; font-weight: 700; color: var(--navy-800); }
+  .field .hint { font-size: 12px; color: var(--ink-600); }
+  .input, .select, .textarea {
+    appearance: none;
+    width: 100%;
+    background: var(--white);
+    border: 1.5px solid var(--ink-200);
+    border-radius: var(--r-sm);
+    padding: 12px 14px;
+    font: inherit;
+    color: var(--ink-900);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .input:focus, .select:focus, .textarea:focus {
+    outline: none;
+    border-color: var(--blue-500);
+    box-shadow: 0 0 0 4px rgba(47,139,210,.15);
+  }
+  .textarea { min-height: 96px; resize: vertical; }
+  .check {
+    display: inline-flex; align-items: center; gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .check input { display: none; }
+  .check .box {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--ink-300);
+    border-radius: 5px;
+    display: grid; place-items: center;
+    transition: all .15s;
+  }
+  .check input:checked + .box {
+    background: var(--blue-500);
+    border-color: var(--blue-500);
+  }
+  .check input:checked + .box::after {
+    content: "";
+    width: 10px; height: 6px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg) translate(1px, -1px);
+  }
+
+  /* ============ Hero example ============ */
+  .hero-example {
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    color: var(--navy-900);
+    position: relative;
+    box-shadow: var(--sh-2);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 380px;
+  }
+  @media (max-width: 800px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+  .hero-text {
+    padding: 56px 48px;
+    position: relative;
+    background:
+      radial-gradient(ellipse 70% 60% at 0% 100%, rgba(75,166,226,.08), transparent 60%),
+      radial-gradient(ellipse 60% 80% at 100% 0%, rgba(216,124,58,.06), transparent 65%),
+      var(--white);
+  }
+  .hero-text::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(35,78,145,.045) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(35,78,145,.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 80% at 30% 50%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 30% 50%, #000 30%, transparent 80%);
+    pointer-events: none;
+  }
+  .hero-text > * { position: relative; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--white);
+    border: 1.5px solid var(--navy-700);
+    color: var(--navy-800);
+    border-radius: var(--r-pill);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .hero-en {
+    font-family: var(--ff-en);
+    letter-spacing: .35em;
+    color: var(--blue-600);
+    font-size: 13px;
+    font-weight: 600;
+    margin: 28px 0 10px;
+  }
+  .hero-title {
+    font-size: 52px;
+    line-height: 1.1;
+    margin: 0 0 18px;
+    font-weight: 900;
+    letter-spacing: -.005em;
+    color: var(--navy-900);
+  }
+  .hero-title .num {
+    font-family: var(--ff-en);
+    font-size: 0.85em;
+    color: var(--blue-500);
+  }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--ink-700);
+    margin: 0 0 28px;
+    line-height: 1.8;
+  }
+  .hero-sub .price {
+    background: linear-gradient(120deg, var(--orange-600), var(--orange-400));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    font-size: 20px;
+    padding: 0 4px;
+  }
+  .hero-visual {
+    position: relative;
+    background:
+      radial-gradient(ellipse 80% 80% at 50% 50%, rgba(191,224,244,.5), transparent 70%),
+      var(--ink-50);
+    border-left: 1px solid var(--ink-200);
+    display: grid; place-items: center;
+    overflow: hidden;
+  }
+  .hero-visual svg {
+    width: 80%; height: auto;
+  }
+
+  .hero-stage-tag {
+    position: absolute;
+    top: 18px; right: 18px;
+    background: var(--white);
+    color: var(--navy-700);
+    border: 1px solid var(--ink-200);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: var(--r-pill);
+    padding: 5px 11px;
+    font-family: var(--ff-en);
+    letter-spacing: .1em;
+    z-index: 2;
+  }
+
+  /* ============ Logo rules ============ */
+  .logo-frame {
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-md);
+    padding: 32px;
+    display: grid; place-items: center;
+    position: relative;
+  }
+  .logo-frame img { height: 64px; width: auto; }
+  .clearspace {
+    position: relative;
+    background:
+      linear-gradient(45deg, transparent 47%, var(--blue-200) 47%, var(--blue-200) 53%, transparent 53%),
+      linear-gradient(-45deg, transparent 47%, var(--blue-200) 47%, var(--blue-200) 53%, transparent 53%);
+    background-size: 12px 12px;
+    border: 1px dashed var(--blue-400);
+    padding: 56px;
+  }
+  .clearspace img { background: #fff; padding: 16px 24px; height: 56px; width: auto; border-radius: 4px; }
+  .clearspace .x {
+    position: absolute;
+    background: var(--navy-700);
+    color: #fff;
+    font-family: var(--ff-en); font-weight: 700;
+    font-size: 11px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+  }
+  .clearspace .x.t { top: 8px; left: 50%; transform: translateX(-50%); }
+  .clearspace .x.b { bottom: 8px; left: 50%; transform: translateX(-50%); }
+  .clearspace .x.l { left: 8px; top: 50%; transform: translateY(-50%); }
+  .clearspace .x.r { right: 8px; top: 50%; transform: translateY(-50%); }
+
+  .do-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+  @media (max-width: 800px) { .do-grid { grid-template-columns: 1fr; } }
+  .do-card {
+    background: var(--white);
+    border: 1px solid var(--ink-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .do-card .preview {
+    height: 100px;
+    display: grid; place-items: center;
+    border-bottom: 1px solid var(--ink-200);
+  }
+  .do-card.dont .preview { background: var(--ink-100); }
+  .do-card.do .preview { background: var(--white); }
+  .do-card.bg .preview { background: var(--navy-800); }
+  .do-card .preview img { height: 36px; width: auto; }
+  .do-card.distort .preview img { transform: scaleX(1.4); }
+  .do-card.tint .preview img { filter: hue-rotate(45deg) saturate(1.5); }
+  .do-card .label {
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .do-card.do .label { color: var(--success); }
+  .do-card.dont .label { color: var(--danger); }
+  .do-card .mark {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .do-card.do .mark { background: var(--success); }
+  .do-card.dont .mark { background: var(--danger); }
+
+  /* ============ Iconography ============ */
+  .icon-card {
+    aspect-ratio: 1;
+    justify-content: center;
+    border-radius: var(--r-md);
+  }
+  .icon-card svg {
+    width: 36px; height: 36px;
+    color: var(--navy-700);
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .icon-card .name { font-size: 11px; color: var(--ink-600); font-family: var(--ff-en); }
+
+  /* ============ Pattern (motif) ============ */
+  .motif {
+    background: linear-gradient(135deg, var(--navy-800), var(--navy-600));
+    border-radius: var(--r-lg);
+    padding: 48px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .motif h3 { margin: 0 0 8px; font-size: 22px; }
+  .motif p { margin: 0; color: rgba(255,255,255,.8); font-size: 14px; max-width: 480px; }
+  .motif-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='80' viewBox='0 0 140 80'><g fill='none' stroke='rgba(123,193,237,.35)' stroke-width='1.2'><path d='M10 10 h40 v25 h-40 z M10 10 l8 -6 h40 l-8 6 M50 10 l8 -6 v25 l-8 6'/><path d='M55 10 h40 v25 h-40 z M55 10 l8 -6 h40 l-8 6 M95 10 l8 -6 v25 l-8 6'/><path d='M100 10 h40 v25 h-40 z M100 10 l8 -6 h40 l-8 6 M140 10 l8 -6 v25 l-8 6'/></g></svg>");
+    background-size: 140px 80px;
+    opacity: .35;
+    pointer-events: none;
+  }
+
+  /* ============ Footer ============ */
+  footer.doc-foot {
+    padding: 80px 0 60px;
+    color: var(--ink-600);
+    font-size: 13px;
+    text-align: center;
+  }
+  footer.doc-foot strong { color: var(--navy-800); }
+
+  /* small helpers */
+  .row-gap-3 { display: flex; flex-direction: column; gap: var(--s-3); }
+  .row-gap-4 { display: flex; flex-direction: column; gap: var(--s-4); }
+  .muted { color: var(--ink-600); font-size: 13px; font-family: var(--ff-en); }
+  code.tok {
+    font-family: var(--ff-mono);
+    background: var(--ink-100);
+    color: var(--navy-800);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Top doc nav ===== -->
+<nav class="doc-nav" aria-label="セクションナビ">
+  <div class="doc-nav-inner">
+    <div class="doc-nav-brand">
+      <span class="doc-nav-brand-mark"></span>
+      全国公益法人協会 — Design System
+    </div>
+    <div class="doc-nav-links">
+      <a href="#brand">Brand</a>
+      <a href="#color">Color</a>
+      <a href="#type">Typography</a>
+      <a href="#space">Spacing</a>
+      <a href="#radius">Radius &amp; Shadow</a>
+      <a href="#icons">Icons</a>
+      <a href="#components">Components</a>
+      <a href="#hero">Hero Patterns</a>
+      <a href="#nav-pattern">Navigation</a>
+      <a href="#lists">News &amp; Lists</a>
+      <a href="#subbrands">Sub-brands</a>
+      <a href="#contact">Contact</a>
+      <a href="#logo">Logo Usage</a>
+      <a href="#a11y">Accessibility</a>
+      <a href="#site">Web 実装</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Doc hero ===== -->
+<header class="doc-hero">
+  <div class="page doc-hero-inner">
+    <div class="doc-hero-eyebrow">Design System v1.3</div>
+    <h1>信頼を、<br/><span class="accent">よりモダンに</span>伝える。</h1>
+    <p>全国公益法人協会のブランド資産を、上品な<strong>ミディアムブルー</strong>とクールグレーで再定義したデザインシステムです。Web・印刷物・広報物まで、一貫した佇まいで「公益・一般法人の心強いミカタ」を表現します。</p>
+    <div class="doc-hero-meta">
+      <span><strong>Audience</strong> &nbsp;公益法人・一般法人の運営担当者</span>
+      <span><strong>Voice</strong> &nbsp;誠実 / 専門的 / 親身</span>
+      <span><strong>Updated</strong> &nbsp;2026.08</span>
+    </div>
+  </div>
+</header>
+
+<!-- ====== Section: Brand ====== -->
+<section class="ds" id="brand">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">01</span>
+        <div class="ds-head-tag">Brand Foundation</div>
+      </div>
+      <div>
+        <h2>ブランドの輪郭</h2>
+        <p>ロゴのキューブモチーフは、専門家・運営者・法人がつながり「共に問題を解決する」協会の役割を象徴します。シンボルの濃淡ブルーは、公益性の<em>誠実さ</em>と、開かれた<em>透明性</em>を同時に表現しています。</p>
+      </div>
+    </div>
+
+    <div class="grid-2" style="align-items: stretch;">
+      <div class="logo-frame">
+        <img src="assets/logo.png" alt="全国公益法人協会 ロゴ" />
+      </div>
+      <div class="motif">
+        <div class="motif-grid"></div>
+        <div style="position:relative">
+          <div class="eyebrow-en solo" style="color: var(--blue-300); margin-bottom: 16px;">Brand Voice</div>
+          <h3>誠実 × 専門 × 親身</h3>
+          <p>かしこまりすぎず、軽すぎない。専門家の信頼感と、運営担当者に寄り添う温度感を両立した文体・ビジュアルを目指します。一次情報の正確性を最優先しつつ、難解にせず「分かる言葉」で語ります。</p>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">Voice &amp; Tone — 文体の3原則</h4>
+    <div class="grid-3">
+      <div class="card">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h4>誠実 — 正確に、断定する</h4>
+        <p>関連法令・通達に基づく正確な記述を最優先。曖昧な表現や過度な誇張は避け、根拠を明示します。</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13"/><path d="M4 19h16"/><path d="M8 9h8M8 13h6"/></svg>
+        </div>
+        <h4>明快 — 短く、構造的に</h4>
+        <p>1文40字以内を目安。専門用語は初出時に補足。要点→詳細の順で、運営担当者の判断速度を上げる文章に。</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V6a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+        </div>
+        <h4>親身 — 「お悩みの方へ」</h4>
+        <p>運営の現場感に寄り添う言葉選び。「させていただく」より「いたします」を基本に、距離感のある丁寧語で。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Color ====== -->
+<section class="ds" id="color">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">02</span>
+        <div class="ds-head-tag">Color System</div>
+      </div>
+      <div>
+        <h2>カラーシステム</h2>
+        <p>「ミディアムブルーをベースに、ネイビーとクールグレーで上品に締める」が基本構造。ブルーは信頼と公益性、グレーは静けさと専門性を担います。彩度の高いアクセントは限定的に使用してください。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">Primary — Navy</h4>
+    <div class="grid-4">
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--navy-900);"><span class="swatch-tag">CORE</span></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Navy 900</span>
+          <span class="swatch-jp">本文・最も濃い見出し</span>
+          <span class="swatch-hex">#0E2147</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--navy-800);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Navy 800</span>
+          <span class="swatch-jp">背景（ダーク）・バッジ</span>
+          <span class="swatch-hex">#15305F</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--navy-700);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Navy 700</span>
+          <span class="swatch-jp">主要見出し・アウトラインボタン</span>
+          <span class="swatch-hex">#1B3F77</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--navy-500);"><span class="swatch-tag">PRIMARY</span></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Navy 500</span>
+          <span class="swatch-jp">ブランドカラー（ロゴ）</span>
+          <span class="swatch-hex">#2B62AE</span>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">Accent — Sky Blue</h4>
+    <div class="grid-4">
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--blue-600);"><span class="swatch-tag">CTA</span></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Blue 600</span>
+          <span class="swatch-jp">CTA地・白地のテキスト</span>
+          <span class="swatch-hex">#2276BE</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--blue-500);"><span class="swatch-tag">装飾のみ</span></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Blue 500</span>
+          <span class="swatch-jp">罫・アイコン・図形（文字の地には使わない）</span>
+          <span class="swatch-hex">#2F8BD2</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--blue-400);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Blue 400</span>
+          <span class="swatch-jp">ホバー・アンダーライン</span>
+          <span class="swatch-hex">#4FA6E2</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: var(--blue-200);"><span class="swatch-tag">SOFT</span></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Blue 200</span>
+          <span class="swatch-jp">アイコン背景・引用</span>
+          <span class="swatch-hex">#BFE0F4</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: var(--blue-100); border-bottom: 1px solid var(--ink-200);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Blue 100</span>
+          <span class="swatch-jp">ハイライト背景</span>
+          <span class="swatch-hex">#E6F3FB</span>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">Neutral — Cool Gray</h4>
+    <div class="scale">
+      <div style="background: var(--ink-950);"><span class="v">950</span></div>
+      <div style="background: var(--ink-900);"><span class="v">900</span></div>
+      <div style="background: var(--ink-800);"><span class="v">800</span></div>
+      <div style="background: var(--ink-700);"><span class="v">700</span></div>
+      <div style="background: var(--ink-600);"><span class="v">600</span></div>
+      <div style="background: var(--ink-500);"><span class="v">500</span></div>
+      <div class="lt" style="background: var(--ink-400);"><span class="v">400</span></div>
+      <div class="lt" style="background: var(--ink-300);"><span class="v">300</span></div>
+      <div class="lt" style="background: var(--ink-200);"><span class="v">200</span></div>
+      <div class="lt" style="background: var(--ink-100);"><span class="v">100</span></div>
+    </div>
+    <div class="scale-label">
+      <span>#0B1220</span>
+      <span style="text-align:right;">#F1F3F7</span>
+    </div>
+
+    <h4 class="subhead">Accent — Warm Orange（原則として使わない・例外的にだけ使う）</h4>
+    <div style="display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px; background: var(--white); border: 1px solid var(--orange-200); border-left: 3px solid var(--orange-500); border-radius: var(--r-md); margin: 0 0 var(--s-4);">
+      <div style="flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--orange-500); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 14px; font-family: var(--ff-en);">!</div>
+      <div style="font-size: 13px; color: var(--ink-700); line-height: 1.7;">
+        <strong style="color: var(--orange-700);">オレンジは「ここだけ」のための色です。</strong>
+        ブランドの主軸はあくまで Navy + Blue。オレンジは「1画面（1スクリーン）に1ヶ所」を原則とし、<strong>本当に誤読・見落としが許されない一点</strong>に限定して使います。迷ったら使わない、が正解です。
+      </div>
+    </div>
+    <div class="grid-4">
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--orange-700);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Orange 700</span>
+          <span class="swatch-jp">期限超過・エラー註記</span>
+          <span class="swatch-hex">#B8551E</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--orange-500);"><span class="swatch-tag">RARE</span></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Orange 500</span>
+          <span class="swatch-jp">「ここだけ」の警告・超限定キャッチ</span>
+          <span class="swatch-hex">#D87C3A</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: var(--orange-200);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Orange 200</span>
+          <span class="swatch-jp">警告ボックスの縁</span>
+          <span class="swatch-hex">#F6D9C2</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: var(--orange-100); border-bottom: 1px solid var(--ink-200);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Orange 100</span>
+          <span class="swatch-jp">警告ノートの底色</span>
+          <span class="swatch-hex">#FBEEE2</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: var(--s-5);">
+      <div style="padding: 18px 20px; background: var(--white); border: 1px solid var(--ink-200); border-radius: var(--r-md);">
+        <div style="font-family: var(--ff-en); font-size: 11px; letter-spacing: .12em; color: var(--success); font-weight: 800; margin-bottom: 8px;">○ DO — 使ってよい場面</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.85; color: var(--ink-800);">
+          <li>誤ると不利益が生じる<strong>期限・締切註記</strong>（「5月1日未提出で認定取消」など）</li>
+          <li>状態色の <strong>Warning</strong>（進捗・エラー以前の警告）</li>
+          <li><strong>見落としてはいけない</strong>一説規定・重要註記のアイコン・引出し線</li>
+          <li>オリジナル画像のキャッチを<strong>そのまま転載</strong>するとき（作りださない）</li>
+        </ul>
+      </div>
+      <div style="padding: 18px 20px; background: var(--white); border: 1px solid var(--ink-200); border-radius: var(--r-md);">
+        <div style="font-family: var(--ff-en); font-size: 11px; letter-spacing: .12em; color: var(--danger); font-weight: 800; margin-bottom: 8px;">× DON’T — 使わない</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.85; color: var(--ink-800);">
+          <li><strong>通常のCTA・ボタン</strong>（CTAは Blue 600 / Navy 700）</li>
+          <li><strong>リンク色・見出し色・本文色</strong>には使わない</li>
+          <li><strong>「NEW」「人気」「おすすめ」</strong>などの<u>装飾・誘導</u>バッジ（これらは Navy / Blue）</li>
+          <li><strong>背景、帯、大面積のグラデーション</strong>（オレンジを広げると「安さ」を招きます）</li>
+          <li><strong>同一画面に2ヶ所以上</strong>（スクリーンごとに1点まで）</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin: var(--s-4) 0 0; color: var(--ink-600); font-size: 12px; line-height: 1.7;">
+      <strong style="color: var(--orange-700);">チェックリスト：</strong>
+      使う前に「これは Navy / Blue / Ink で表現できないか？」と自問してください。表現できるなら、そちらを選ぶのがこのシステムの規範です。オレンジは「使わないと伝わらない」と確信できたときだけ手にする色です。
+    </p>
+
+    <h4 class="subhead">Semantic — 状態色（緑禁則）</h4>
+    <p style="margin: 0 0 var(--s-4); color: var(--ink-600); font-size: 13px;">ブランドポリシーとして<strong>緑色は使用しません</strong>。「完了・受付中」などのポジティブな状態は Navy で表現し、注意は Warning、エラーは Danger を使い分けます。</p>
+    <div class="grid-3">
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--success);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Positive · Navy 700</span>
+          <span class="swatch-jp">完了・受付中（Navy 代用）</span>
+          <span class="swatch-hex">#1B3F77</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--warning);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Warning · Orange 700</span>
+          <span class="swatch-jp">注意・期日近接（白文字を載せる地）</span>
+          <span class="swatch-hex">#B8551E</span>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background: var(--danger);"></div>
+        <div class="swatch-meta">
+          <span class="swatch-name">Danger</span>
+          <span class="swatch-jp">エラー・期限超過</span>
+          <span class="swatch-hex">#C24444</span>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">Usage Ratio — 配色比率</h4>
+    <div class="grid-2">
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="display: flex; height: 110px;">
+          <div style="flex: 60; background: var(--white); border-right: 1px solid var(--ink-200); display:grid; place-items:center; color: var(--ink-700); font-size: 13px; font-weight: 700;">60% White / Ink-50</div>
+          <div style="flex: 30; background: var(--navy-800); display:grid; place-items:center; color: #fff; font-size: 13px; font-weight: 700;">30% Navy</div>
+          <div style="flex: 10; background: var(--blue-600); display:grid; place-items:center; color: #fff; font-size: 13px; font-weight: 700;">10% Sky</div>
+        </div>
+        <div style="padding: 16px 20px;">
+          <strong style="color: var(--navy-900); font-size: 14px;">Light Mode（標準）</strong>
+          <p class="muted" style="margin: 4px 0 0;">本文・コンテンツは Ink-900、見出しは Navy 800〜900。アクセントは CTA とリンクに限定。</p>
+        </div>
+      </div>
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="display: flex; height: 110px;">
+          <div style="flex: 70; background: var(--navy-900); display:grid; place-items:center; color: #fff; font-size: 13px; font-weight: 700;">70% Navy 900</div>
+          <div style="flex: 20; background: var(--navy-700); display:grid; place-items:center; color: #fff; font-size: 13px; font-weight: 700;">20% Navy 700</div>
+          <div style="flex: 10; background: var(--blue-300); display:grid; place-items:center; color: var(--navy-900); font-size: 13px; font-weight: 700;">10% Blue 300</div>
+        </div>
+        <div style="padding: 16px 20px;">
+          <strong style="color: var(--navy-900); font-size: 14px;">Dark Hero（強調）</strong>
+          <p class="muted" style="margin: 4px 0 0;">ヒーロー・セクション区切りで使用。本文は Blue 200 で軽くトーンを乗せる。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Typography ====== -->
+<section class="ds" id="type">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">03</span>
+        <div class="ds-head-tag">Typography</div>
+      </div>
+      <div>
+        <h2>タイポグラフィ</h2>
+        <p>和文は <code class="tok">Noto Sans JP</code>、ヒーローのキャッチだけ <code class="tok">Noto Serif JP</code>、欧文・算用数字は <code class="tok">Inter</code> の3書体。本文は <strong>15px・行送り1.8</strong> が基準（v1.3 で実測値に改訂）。見出しは太さを盛らず、<strong>Navy の濃さの段</strong>でリズムを作ります。</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div style="padding: var(--s-5) var(--s-6);">
+        <div class="type-row">
+          <div class="type-tag"><b>Hero Serif</b><span>Noto Serif JP / 600</span><br/><span class="px">44 / 1.4 / +.02em</span></div>
+          <div class="type-sample ts-serif">担い手が減る時代に<br/>公益活動の歩みを止めない</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>Display / H1</b><span>Noto Sans JP / 900・700</span><br/><span class="px">64・44（協会サイト用）</span></div>
+          <div class="type-sample ts-h1">運営でお悩みの方へ、専門家がチームで支援します</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>Section H2</b><span>Noto Sans JP / 700</span><br/><span class="px">32 / 1.3 / -.005em<br/>モバイル 24</span></div>
+          <div class="type-sample ts-h2">月々6,000円から始められる、シェアコモン200</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>Card / Timeline H3</b><span>Noto Sans JP / 700</span><br/><span class="px">18 / 1.45</span></div>
+          <div class="type-sample ts-h3" style="font-size:18px;">弁護士・公認会計士・税理士が連携</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>Lead</b><span>Noto Sans JP / 500</span><br/><span class="px">16 / 1.8</span></div>
+          <div class="type-sample ts-lead">公益認定基準への適合、定期提出書類の整備、評議員会・理事会の運営まで、 全国公益法人協会が伴走します。</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>Body</b><span>Noto Sans JP / 400</span><br/><span class="px">15 / 1.8</span></div>
+          <div class="type-sample ts-body15">公益法人の運営は、関連法令の改正や行政庁の運用指針により毎年のように要点が更新されます。当協会では、最新の通達・運用事例を踏まえ、書類整備から会議運営、税務対応までを一気通貫で支援しています。</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>Small / Caption</b><span>Noto Sans JP / 400</span><br/><span class="px">14 / 1.8 — 色は Ink 600</span></div>
+          <div class="type-sample ts-small14">※ サービス内容は法令・通達の改正により変更となる場合があります。</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>EN Display</b><span>Inter / 700 — Tracking +.04em</span><br/><span class="px">28 / 1.1</span></div>
+          <div class="type-sample ts-en">SHIBUYA AWARD 2025</div>
+        </div>
+        <div class="type-row">
+          <div class="type-tag"><b>Eyebrow</b><span>Inter / 600 — Tracking +.26em</span><br/><span class="px">12 — 色は Blue 600</span></div>
+          <div class="type-sample"><span class="eyebrow-en solo">Japan Foundation for Public Interest Support</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">3書体の役割とウェイト</h4>
+    <div class="grid-2">
+      <div class="card">
+        <h4>書体は3つ、役割は固定</h4>
+        <p><strong>Noto Sans JP</strong> が既定（本文・見出し・UI・和暦）。<strong>Noto Serif JP</strong> は<u>ヒーローの h1 だけ</u>（§15-1。太明朝 700 以上は禁止）。<strong>Inter</strong> は欧文と算用数字だけ。明朝をセクション見出しや本文に広げない、Inter を和文に当てない。</p>
+      </div>
+      <div class="card">
+        <h4>使うウェイトは 400 / 500 / 700 の3段</h4>
+        <p>見出しは 700 で止める。<strong>900（Black）は財団サイトでは使わない</strong>（v1.0 §03 の Display 900 は協会サイト側の規定）。<code class="tok">600</code> は Serif のキャッチと Inter のエイブロー専用で、和文 Sans には当てない。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">和文・欧文の組み合わせルール</h4>
+    <div class="grid-4">
+      <div class="card">
+        <h4>① 英語見出しは Inter</h4>
+        <p>「SHIBUYA AWARD」のような英字キーワードは Inter 700、字間 +.26em〜+.35em でゆったり組む。和文より一段小さく置く。ブランド名「シェアコモン200」はカタカナ表記で統一し、英語表記は使用しない。</p>
+      </div>
+      <div class="card">
+        <h4>② 数字は Inter / Tabular</h4>
+        <p>金額・年度・パーセントは Inter で統一。<code class="tok">font-feature-settings: "tnum"</code> で表組での揃えを担保。</p>
+      </div>
+      <div class="card">
+        <h4>③ 和暦に Inter は当てない</h4>
+        <p>「令和7年11月17日」のような和暦・和文混在は Noto Sans JP のまま、<code class="tok">tabular-nums</code> だけを効かせる。Inter を当てるのは西暦の日付・金額・件数。</p>
+      </div>
+      <div class="card">
+        <h4>④ 約物半角は <code class="tok">palt</code></h4>
+        <p><code class="tok">body</code> 全体で <code class="tok">font-feature-settings: "palt" 1</code>、CMS の長文本文（<code class="tok">.prose</code>）では <code class="tok">normal</code> に戻す。見出し・UI は詰め、長文は標準送り。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">Font Stack — Web は stack を手書きしない</h4>
+    <div class="grid-2">
+      <div class="card">
+        <h4>Web（next/font）</h4>
+        <p>フレームワークが生成する CSS 変数をそのまま使う。フォールバックは metric-adjusted な <code class="tok">local(Arial)</code> 1枚で、<strong>Hiragino / Yu Gothic は Web の stack に入らない</strong>。CJK は unicode-range 分割で配信されるため、<code class="tok">subsets: ['latin']</code> でも和文グリフは読み込まれる。</p>
+      </div>
+      <div class="card">
+        <h4>印刷・スライド・その他の媒体</h4>
+        <p><code class="tok">--ff-jp</code> / <code class="tok">--ff-jp-serif</code> / <code class="tok">--ff-en</code> の stack を使う（巻末トークン参照）。等幅（JetBrains Mono）は現状どの実装でも未使用。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Spacing ====== -->
+<section class="ds" id="space">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">04</span>
+        <div class="ds-head-tag">Spacing &amp; Grid</div>
+      </div>
+      <div>
+        <h2>余白とグリッド</h2>
+        <p>ベースは <strong>4px</strong> グリッド。要素間 8 / 16 / 24 / 32px、セクション間 64 / 96px が基準。コンテンツ最大幅は 1240px、本文カラムは 720px を上限に読みやすさを確保します。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">Spacing Scale</h4>
+    <div class="card" style="padding: var(--s-3) var(--s-5);">
+      <div class="space-row"><span class="name">s-1</span><span class="px">4px</span><div class="space-bar" style="width: 4px;"></div></div>
+      <div class="space-row"><span class="name">s-2</span><span class="px">8px</span><div class="space-bar" style="width: 8px;"></div></div>
+      <div class="space-row"><span class="name">s-3</span><span class="px">12px</span><div class="space-bar" style="width: 12px;"></div></div>
+      <div class="space-row"><span class="name">s-4</span><span class="px">16px</span><div class="space-bar" style="width: 16px;"></div></div>
+      <div class="space-row"><span class="name">s-5</span><span class="px">24px</span><div class="space-bar" style="width: 24px;"></div></div>
+      <div class="space-row"><span class="name">s-6</span><span class="px">32px</span><div class="space-bar" style="width: 32px;"></div></div>
+      <div class="space-row"><span class="name">s-7</span><span class="px">48px</span><div class="space-bar" style="width: 48px;"></div></div>
+      <div class="space-row"><span class="name">s-8</span><span class="px">64px</span><div class="space-bar" style="width: 64px;"></div></div>
+      <div class="space-row"><span class="name">s-9</span><span class="px">96px</span><div class="space-bar" style="width: 96px;"></div></div>
+    </div>
+
+    <h4 class="subhead">Grid — 12 Column / 1240 max</h4>
+    <div class="card" style="padding: 16px; background: var(--ink-50);">
+      <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; height: 80px;">
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+        <div style="background: var(--blue-200); border-radius: 4px;"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 12px; font-family: var(--ff-mono); font-size: 11px; color: var(--ink-600);">
+        <span>12 cols · gutter 16px</span><span>max-width 1240px</span><span>side padding 32px</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Radius / Shadow ====== -->
+<section class="ds" id="radius">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">05</span>
+        <div class="ds-head-tag">Radius &amp; Shadow</div>
+      </div>
+      <div>
+        <h2>角丸とシャドウ</h2>
+        <p>角丸は 6 / 10 / 16 / 24px の4段階、加えてピル形を使用。影は控えめな4段階で、UI要素の階層をやさしく示します。強い影は使いません（公的な品位を損なうため）。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">Border Radius</h4>
+    <div class="grid-4">
+      <div class="radius-card"><div class="demo" style="border-radius: var(--r-sm);"></div><span class="lbl"><b>r-sm</b>6px / Input・Tag</span></div>
+      <div class="radius-card"><div class="demo" style="border-radius: var(--r-md);"></div><span class="lbl"><b>r-md</b>10px / Card・Image</span></div>
+      <div class="radius-card"><div class="demo" style="border-radius: var(--r-lg);"></div><span class="lbl"><b>r-lg</b>16px / Hero・Modal</span></div>
+      <div class="radius-card"><div class="demo" style="border-radius: var(--r-pill); width: 110px; height: 50px;"></div><span class="lbl"><b>r-pill</b>999px / Badge・Btn</span></div>
+    </div>
+
+    <h4 class="subhead">Shadow</h4>
+    <div class="grid-4">
+      <div class="shadow-card"><div class="demo" style="box-shadow: var(--sh-1);"></div><span class="lbl"><b>sh-1</b>静かな浮き / Input focus</span></div>
+      <div class="shadow-card"><div class="demo" style="box-shadow: var(--sh-2);"></div><span class="lbl"><b>sh-2</b>Card hover</span></div>
+      <div class="shadow-card"><div class="demo" style="box-shadow: var(--sh-3);"></div><span class="lbl"><b>sh-3</b>Hero・Modal</span></div>
+      <div class="shadow-card"><div class="demo" style="box-shadow: var(--sh-4);"></div><span class="lbl"><b>sh-4</b>Floating CTA</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Iconography ====== -->
+<section class="ds" id="icons">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">06</span>
+        <div class="ds-head-tag">Iconography</div>
+      </div>
+      <div>
+        <h2>アイコン</h2>
+        <p>線幅 <strong>1.6px</strong>・端は <strong>round</strong> の細身ストロークアイコン。サイズは 20 / 24 / 32px を基本に、塗りは使用しません。色は Ink-700 か Navy-700。背景に Blue-100 の角丸正方形を敷くとカード見出しに最適です。</p>
+      </div>
+    </div>
+
+    <div class="grid-6">
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/></svg>
+        <span class="name">shield</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        <span class="name">document</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        <span class="name">expert</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14h4"/></svg>
+        <span class="name">card</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V6a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+        <span class="name">chat</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <span class="name">search</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+        <span class="name">calendar</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-7h6v7"/></svg>
+        <span class="name">building</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+        <span class="name">clock</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18l-2 13H5z"/><path d="M9 10v6M15 10v6"/></svg>
+        <span class="name">archive</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="20" cy="17" r="2"/></svg>
+        <span class="name">filter</span>
+      </div>
+      <div class="icon-card">
+        <svg viewBox="0 0 24 24"><path d="m4 7 8 6 8-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+        <span class="name">mail</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Components ====== -->
+<section class="ds" id="components">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">07</span>
+        <div class="ds-head-tag">Components</div>
+      </div>
+      <div>
+        <h2>コンポーネント</h2>
+        <p>主要コンポーネントの基本形。CTAボタンは「ピル形 + 控えめなブルーシャドウ」、見出しバッジは「ネイビー濃地 + 白文字」を標準に、ヒーロー・セクション冒頭で使用します。</p>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <h4 class="subhead">Buttons — 主要CTA</h4>
+    <div class="card row-gap-4">
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#">サービス紹介サイトへ <span aria-hidden="true">→</span></a>
+        <a class="btn btn-navy" href="#">資料を請求する</a>
+        <a class="btn btn-outline" href="#">お問い合わせ</a>
+        <a class="btn btn-ghost" href="#">詳細を見る</a>
+        <a class="btn btn-link" href="#">月刊「公益」を読む</a>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-lg" href="#">大サイズ・主要動線</a>
+        <a class="btn btn-primary" href="#">標準サイズ</a>
+        <a class="btn btn-primary btn-sm" href="#">補助・小サイズ</a>
+      </div>
+      <div class="btn-row" style="background: var(--navy-900); padding: 16px 20px; border-radius: var(--r-md); margin-top: 8px;">
+        <a class="btn btn-primary" href="#" style="background: var(--blue-400);">ダーク背景でのCTA</a>
+        <a class="btn" href="#" style="background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.2);">セカンダリ</a>
+      </div>
+    </div>
+
+    <!-- Eyebrow / Badge -->
+    <h4 class="subhead">Eyebrow &amp; Badge — 見出しバッジ</h4>
+    <div class="card row-gap-4">
+      <div class="btn-row">
+        <span class="badge-pill"><span class="dot"></span>公益・一般法人の運営でお悩みの方へ</span>
+        <span class="badge-pill outline">セミナーのお知らせ</span>
+        <span class="badge-pill accent">NEW · 月刊「公益」5月号</span>
+      </div>
+      <div>
+        <span class="eyebrow-en" style="font-family: var(--ff-jp); letter-spacing: .12em;">シェアコモン200</span>
+        <h3 style="margin: 12px 0 0; font-size: 28px; color: var(--navy-900);">運営の心強いミカタ</h3>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <h4 class="subhead">Cards — サービス紹介</h4>
+    <div class="grid-3">
+      <div class="card">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/></svg>
+        </div>
+        <h4>専門家チームの伴走支援</h4>
+        <p>弁護士・公認会計士・税理士・司法書士・社労士が連携。複合的な運営課題を一括で解決します。</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        </div>
+        <h4>定期提出書類の整備</h4>
+        <p>事業計画書・収支予算書・役員等名簿…。様式の最新化と過年度との整合をサポート。</p>
+      </div>
+      <div class="card">
+        <div class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+        </div>
+        <h4>会議運営テンプレート</h4>
+        <p>評議員会・理事会の招集通知から議事録まで、即使えるひな形をご提供。</p>
+      </div>
+    </div>
+
+    <!-- Stat -->
+    <h4 class="subhead">Stat Cards — 数値・実績</h4>
+    <div class="grid-3">
+      <div class="stat">
+        <div class="num">¥6,000<span style="font-size: 18px; opacity: .8;">/月〜</span></div>
+        <div class="lbl">シェアコモン 200 月額会費</div>
+      </div>
+      <div class="stat">
+        <div class="num">5士業</div>
+        <div class="lbl">弁護士・会計士・税理士・司法書士・社労士</div>
+      </div>
+      <div class="stat">
+        <div class="num">200<span style="font-size: 18px;"> 法人</span></div>
+        <div class="lbl">支援対象とする会員規模</div>
+      </div>
+    </div>
+
+    <!-- Forms -->
+    <h4 class="subhead">Forms — フォーム</h4>
+    <div class="card">
+      <div class="grid-2" style="gap: var(--s-5);">
+        <div class="field">
+          <label for="f1">法人名</label>
+          <input id="f1" class="input" placeholder="例) 公益財団法人 〇〇" />
+        </div>
+        <div class="field">
+          <label for="f2">ご担当者名</label>
+          <input id="f2" class="input" placeholder="例) 田中 太郎" />
+        </div>
+        <div class="field">
+          <label for="f3">ご相談カテゴリ</label>
+          <select id="f3" class="select">
+            <option>会計・税務に関するご相談</option>
+            <option>定期提出書類について</option>
+            <option>評議員会・理事会の運営</option>
+            <option>その他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f4">メールアドレス <span class="hint">返信先となります</span></label>
+          <input id="f4" class="input" type="email" placeholder="name@example.or.jp" />
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label for="f5">ご相談内容</label>
+          <textarea id="f5" class="textarea" placeholder="お困りの背景や、これまでの経緯をご記入ください。"></textarea>
+        </div>
+        <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <label class="check"><input type="checkbox" checked /><span class="box"></span>個人情報の取り扱いに同意する</label>
+          <a href="#" class="btn btn-primary">無料で相談する <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Hero patterns ====== -->
+<section class="ds" id="hero">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">08</span>
+        <div class="ds-head-tag">Hero Patterns</div>
+      </div>
+      <div>
+        <h2>ヒーローパターン</h2>
+        <p>白基調を原則とします。背景はピュアホワイト＋淡いブルーのソフトグロー、内部に細いグリッド罫を控えめに敷きます。1: ネイビー縁取りバッジ → 英字エイブロー → 大見出し（ネイビー） → 補足文 → オレンジのキャッチピル → CTA、の縦積み。右側にビジュアルを配置します。</p>
+      </div>
+    </div>
+
+    <div class="hero-example">
+      <span class="hero-stage-tag">PRIMARY HERO · White</span>
+      <div class="hero-grid">
+        <div class="hero-text">
+          <span class="hero-badge">公益・一般法人の運営でお悩みの方へ</span>
+          <div class="hero-en" style="font-family: var(--ff-jp); letter-spacing: .18em; font-weight: 700;">シェアコモン200</div>
+          <h2 class="hero-title">運営の心強いミカタ <span class="num">200</span></h2>
+          <p class="hero-sub">弁護士、公認会計士、税理士、司法書士、社労士などの<br/>専門家の支援を <span class="price">月々6,000円から</span> 受けられる。</p>
+          <div class="btn-row" style="margin-top: 8px;">
+            <a class="btn btn-primary" href="#">サービス紹介サイトへ <span aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href="#">資料請求</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <!-- Cube motif inspired by the logo -->
+          <svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#BFE0F4"/>
+                <stop offset="100%" stop-color="#4FA6E2"/>
+              </linearGradient>
+              <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#2F8BD2"/>
+                <stop offset="100%" stop-color="#1B3F77"/>
+              </linearGradient>
+              <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#15305F"/>
+                <stop offset="100%" stop-color="#0E2147"/>
+              </linearGradient>
+            </defs>
+            <g transform="translate(40,80)">
+              <polygon points="0,30 40,0 80,30 40,60" fill="url(#g1)"/>
+              <polygon points="0,30 40,60 40,120 0,90" fill="url(#g2)"/>
+              <polygon points="80,30 40,60 40,120 80,90" fill="url(#g3)"/>
+            </g>
+            <g transform="translate(120,80)">
+              <polygon points="0,30 40,0 80,30 40,60" fill="url(#g1)"/>
+              <polygon points="0,30 40,60 40,120 0,90" fill="url(#g2)"/>
+              <polygon points="80,30 40,60 40,120 80,90" fill="url(#g3)"/>
+            </g>
+            <g transform="translate(200,80)">
+              <polygon points="0,30 40,0 80,30 40,60" fill="url(#g1)"/>
+              <polygon points="0,30 40,60 40,120 0,90" fill="url(#g2)"/>
+              <polygon points="80,30 40,60 40,120 80,90" fill="url(#g3)"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">Hero — Editorial Variant（記事・お知らせ用）</h4>
+    <div class="hero-example">
+      <span class="hero-stage-tag" style="background: var(--navy-800); color: #fff;">SECONDARY HERO · Editorial</span>
+      <div class="hero-grid" style="min-height: 320px; grid-template-columns: 1fr 1fr;">
+        <div class="hero-text" style="padding: 48px;">
+          <span class="badge-pill outline" style="border-color: var(--navy-700); color: var(--navy-700);">月刊「公益」5月号</span>
+          <h2 class="hero-title" style="font-size: 40px; margin-top: 24px;">公益認定 これからの3年</h2>
+          <p class="hero-sub">行政庁の運用実態をふまえ、申請・変更認定・移行のチェックポイントを編集部が総ざらい。</p>
+          <a class="btn btn-navy" href="#">特集を読む</a>
+        </div>
+        <div class="hero-visual" style="background: var(--ink-50);">
+          <svg viewBox="0 0 220 240" aria-hidden="true">
+            <rect x="30" y="30" width="160" height="200" rx="8" fill="#fff" stroke="#C7CCD6"/>
+            <rect x="48" y="50" width="124" height="14" rx="3" fill="#234E91"/>
+            <rect x="48" y="76" width="80" height="8" rx="2" fill="#A2A9B8"/>
+            <rect x="48" y="100" width="124" height="80" rx="4" fill="#E6F3FB"/>
+            <g transform="translate(80,120)">
+              <polygon points="0,15 20,0 40,15 20,30" fill="#4FA6E2"/>
+              <polygon points="0,15 20,30 20,60 0,45" fill="#234E91"/>
+              <polygon points="40,15 20,30 20,60 40,45" fill="#15305F"/>
+            </g>
+            <rect x="48" y="194" width="60" height="8" rx="2" fill="#A2A9B8"/>
+            <rect x="48" y="208" width="100" height="6" rx="2" fill="#C7CCD6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">構成原則</h4>
+    <div class="grid-3">
+      <div class="card">
+        <strong style="color: var(--navy-900); font-size: 14px;">①  バッジ → エイブロー → 見出し</strong>
+        <p style="margin-top: 6px;">読み手の課題を呼び込む語（「お悩みの方へ」）→ 英字キー → 商品名 / 見出し、の3段重ね。</p>
+      </div>
+      <div class="card">
+        <strong style="color: var(--navy-900); font-size: 14px;">② 価格 / 数字を強調</strong>
+        <p style="margin-top: 6px;">本文中の金額や数値は Inter ボールドで強調。グラデーションテキストで視認性を上げる。</p>
+      </div>
+      <div class="card">
+        <strong style="color: var(--navy-900); font-size: 14px;">③ ビジュアル枠は1/3〜1/2</strong>
+        <p style="margin-top: 6px;">右半分にビジュアル枠を確保。キューブモチーフ・写真・誌面サムネのいずれかを使い分ける。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Logo usage ====== -->
+<section class="ds" id="logo">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">09</span>
+        <div class="ds-head-tag">Logo Usage</div>
+      </div>
+      <div>
+        <h2>ロゴ使用ルール</h2>
+        <p>ロゴは協会の最重要資産です。最小サイズ・余白・配色を守り、改変は行わないでください。下記ルールに沿って使用することで、媒体をまたいだ一貫性を保ちます。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">Clear Space — 周囲の余白</h4>
+    <div class="grid-2" style="align-items: stretch;">
+      <div class="clearspace">
+        <span class="x t">x</span>
+        <span class="x b">x</span>
+        <span class="x l">x</span>
+        <span class="x r">x</span>
+        <img src="assets/logo.png" alt="" />
+      </div>
+      <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
+        <h4 style="margin: 0 0 8px;">最小余白 = キューブシンボルの高さ <code class="tok">x</code></h4>
+        <p style="margin: 0 0 16px;">ロゴ周囲には、シンボル（キューブ部分）の高さと等しい余白 <code class="tok">x</code> を必ず確保。他要素・写真・テキストはこの領域に侵入させないでください。</p>
+        <h4 style="margin: 0 0 8px;">最小サイズ</h4>
+        <ul style="margin: 0; padding-left: 18px; color: var(--ink-700); font-size: 14px;">
+          <li>Web: 高さ <strong>32px 以上</strong>（キューブ部分の視認性を担保）</li>
+          <li>印刷: 高さ <strong>10mm 以上</strong></li>
+          <li>名刺・ファビコン用に、シンボルのみの単色版も使用可</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 class="subhead">Background Rule — 必ず白背景の上に配置</h4>
+    <div style="display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px; background: var(--white); border: 1px solid var(--orange-200); border-left: 3px solid var(--orange-500); border-radius: var(--r-md); margin: 0 0 var(--s-4);">
+      <div style="flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--orange-500); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 14px; font-family: var(--ff-en);">!</div>
+      <div style="font-size: 13px; color: var(--ink-700); line-height: 1.7;">
+        ロゴは<strong>必ず白（#FFFFFF）の地の上</strong>に配置します。<strong>白抜き（ノックアウト／反転）・くり抜きは不可</strong>です。色面・写真・グラデーションの上に直接置きたい場合は、ロゴを白い長方形プレート（角丸 4px、十分なクリアスペース）に載せ、そのプレートを背景に重ねてください。
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="logo-frame" style="padding: 36px;">
+        <img src="assets/logo.png" alt="" style="height: 56px;" />
+      </div>
+      <div style="background: var(--navy-800); border-radius: var(--r-md); padding: 36px; display: grid; place-items: center; min-height: 160px;">
+        <div style="background: #fff; padding: 18px 24px; border-radius: 6px; box-shadow: var(--sh-2);">
+          <img src="assets/logo.png" alt="" style="height: 48px; display: block;" />
+        </div>
+      </div>
+      <div style="background: linear-gradient(135deg, var(--blue-400), var(--navy-700)); border-radius: var(--r-md); padding: 36px; display: grid; place-items: center; min-height: 160px;">
+        <div style="background: #fff; padding: 18px 24px; border-radius: 6px; box-shadow: var(--sh-2);">
+          <img src="assets/logo.png" alt="" style="height: 48px; display: block;" />
+        </div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top: 8px;">
+      <span class="muted" style="text-align: center;">A. 標準（白背景にそのまま配置）</span>
+      <span class="muted" style="text-align: center;">B. ダーク面 → 白プレートに載せる</span>
+      <span class="muted" style="text-align: center;">C. 写真・色面 → 白プレートに載せる</span>
+    </div>
+
+    <h4 class="subhead">Do &amp; Don't — 使用ガイド</h4>
+    <div class="do-grid">
+      <div class="do-card do">
+        <div class="preview"><img src="assets/logo.png" alt="" /></div>
+        <div class="label"><span class="mark">✓</span>白背景にそのまま配置（標準）</div>
+      </div>
+      <div class="do-card do" style="background: var(--navy-800);">
+        <div class="preview" style="background: var(--navy-800); padding: 18px;">
+          <div style="background:#fff; padding: 12px 18px; border-radius: 4px;"><img src="assets/logo.png" alt="" style="display:block;"/></div>
+        </div>
+        <div class="label" style="background: var(--navy-900); color: #fff;"><span class="mark" style="background: var(--success); color: #fff;">✓</span>ダーク面では白プレートに載せる</div>
+      </div>
+      <div class="do-card do">
+        <div class="preview"><img src="assets/logo.png" alt="" /></div>
+        <div class="label"><span class="mark">✓</span>十分なクリアスペースを確保</div>
+      </div>
+      <div class="do-card dont">
+        <div class="preview" style="background: var(--navy-800);"><img src="assets/logo.png" alt="" style="filter: brightness(0) invert(1);" /></div>
+        <div class="label"><span class="mark">✕</span>白抜き（ノックアウト／反転）にしない</div>
+      </div>
+      <div class="do-card dont">
+        <div class="preview" style="background: var(--navy-800);"><img src="assets/logo.png" alt="" style="mix-blend-mode: screen; opacity: .9;" /></div>
+        <div class="label"><span class="mark">✕</span>ブレンドモード等で背景に溶け込ませない</div>
+      </div>
+      <div class="do-card dont distort">
+        <div class="preview"><img src="assets/logo.png" alt="" /></div>
+        <div class="label"><span class="mark">✕</span>縦横比を変えて変形しない</div>
+      </div>
+      <div class="do-card dont tint">
+        <div class="preview"><img src="assets/logo.png" alt="" /></div>
+        <div class="label"><span class="mark">✕</span>ブランド外の色相に変更しない</div>
+      </div>
+      <div class="do-card dont">
+        <div class="preview" style="background: linear-gradient(120deg, #F2C94C, #EB5757);"><img src="assets/logo.png" alt="" /></div>
+        <div class="label"><span class="mark">✕</span>色面・写真の上に直接重ねない</div>
+      </div>
+      <div class="do-card dont">
+        <div class="preview" style="background: var(--ink-100);">
+          <svg viewBox="0 0 80 60" style="width: 70%; height: auto;" aria-hidden="true">
+            <defs><mask id="ko"><rect width="80" height="60" fill="#fff"/><text x="40" y="38" font-family="serif" font-size="22" font-weight="900" text-anchor="middle" fill="#000">公益</text></mask></defs>
+            <rect width="80" height="60" fill="#234E91" mask="url(#ko)"/>
+          </svg>
+        </div>
+        <div class="label"><span class="mark">✕</span>ロゴをくり抜き処理にしない</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Navigation pattern ====== -->
+<section class="ds" id="nav-pattern">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">10</span>
+        <div class="ds-head-tag">Global Navigation</div>
+      </div>
+      <div>
+        <h2>グローバルナビゲーション</h2>
+        <p>上段に連絡先・電話番号・利用法人ポータル動線（ユーティリティ列）、下段にメインカテゴリ（サービス／私たちの想い／会社概要／渋谷賞／出版物／検定試験／採用）を配置。サブメニューはメガメニュー形式でセクション内アンカーまでひと息に。</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 0; overflow: hidden; box-shadow: var(--sh-2);">
+      <!-- Utility row -->
+      <div style="display: flex; align-items: center; gap: var(--s-5); padding: 10px 24px; background: var(--ink-50); border-bottom: 1px solid var(--ink-200); font-size: 12px; color: var(--ink-600);">
+        <span style="display:inline-flex; align-items:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+          受付時間 平日9:00–17:00（土日祝休み）
+        </span>
+        <span style="margin-left:auto; display:flex; gap: 16px; align-items: center;">
+          <a href="#" style="color: var(--ink-600); text-decoration: none;">サイトマップ</a>
+          <a href="#" style="color: var(--ink-600); text-decoration: none;">プライバシーポリシー</a>
+          <a href="#" class="btn btn-sm" style="background: var(--navy-700); color: #fff; padding: 7px 14px;">利用法人様はこちらへ →</a>
+        </span>
+      </div>
+      <!-- Main row -->
+      <div style="display: flex; align-items: center; padding: 18px 24px; gap: var(--s-6);">
+        <img src="assets/logo.png" alt="" style="height: 36px; width: auto;" />
+        <nav style="margin-left: auto; display: flex; gap: 28px;">
+          <a href="#" style="color: var(--navy-800); text-decoration: none; font-weight: 700; font-size: 14px;">サービス</a>
+          <a href="#" style="color: var(--ink-700); text-decoration: none; font-size: 14px;">私たちの想い</a>
+          <a href="#" style="color: var(--ink-700); text-decoration: none; font-size: 14px;">会社概要</a>
+          <a href="#" style="color: var(--ink-700); text-decoration: none; font-size: 14px;">渋谷賞</a>
+          <a href="#" style="color: var(--ink-700); text-decoration: none; font-size: 14px;">出版物</a>
+          <a href="#" style="color: var(--ink-700); text-decoration: none; font-size: 14px;">検定試験</a>
+          <a href="#" style="color: var(--ink-700); text-decoration: none; font-size: 14px;">採用情報</a>
+        </nav>
+        <a href="#" class="btn btn-primary btn-sm" style="margin-left: 8px;">お問合せ</a>
+      </div>
+      <!-- Megamenu -->
+      <div style="border-top: 1px solid var(--ink-200); background: var(--white); padding: 24px; display: grid; grid-template-columns: 200px 1fr; gap: 32px;">
+        <div>
+          <div class="eyebrow-en solo" style="margin-bottom: 8px; font-size: 11px;">SERVICE</div>
+          <h4 style="margin: 0 0 6px; color: var(--navy-900);">事業サービス</h4>
+          <p class="muted" style="margin: 0; font-size: 12px;">公益・一般法人の運営課題を解決する4つの柱。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+          <a href="#" style="text-decoration: none; padding: 14px; border-radius: var(--r-md); background: var(--ink-50); display: block;">
+            <strong style="display: block; color: var(--navy-900); font-size: 14px;">シェアコモン200</strong>
+            <span class="muted" style="font-size: 11px;">専門家200名のシェア型支援</span>
+          </a>
+          <a href="#" style="text-decoration: none; padding: 14px; border-radius: var(--r-md); background: var(--ink-50); display: block;">
+            <strong style="display: block; color: var(--navy-900); font-size: 14px;">公益法人会計検定試験</strong>
+            <span class="muted" style="font-size: 11px;">経理担当者の体系的学習</span>
+          </a>
+          <a href="#" style="text-decoration: none; padding: 14px; border-radius: var(--r-md); background: var(--ink-50); display: block;">
+            <strong style="display: block; color: var(--navy-900); font-size: 14px;">各種代行サービス</strong>
+            <span class="muted" style="font-size: 11px;">事務局代行・申請支援</span>
+          </a>
+          <a href="#" style="text-decoration: none; padding: 14px; border-radius: var(--r-md); background: var(--ink-50); display: block;">
+            <strong style="display: block; color: var(--navy-900); font-size: 14px;">出版事業</strong>
+            <span class="muted" style="font-size: 11px;">月刊公益・専門書籍</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="subhead">構造原則</h4>
+    <div class="grid-3">
+      <div class="card">
+        <strong style="color: var(--navy-900);">① ユーティリティ列を上段に</strong>
+        <p style="margin-top: 6px;">電話番号・受付時間・利用法人様ポータル動線は最上段に固定し、再訪ユーザーの導線を最短に。</p>
+      </div>
+      <div class="card">
+        <strong style="color: var(--navy-900);">② メインは7カテゴリまで</strong>
+        <p style="margin-top: 6px;">サービス／想い／会社概要／渋谷賞／出版物／検定試験／採用、の7カテゴリ構成を維持。追加時は統合を優先。</p>
+      </div>
+      <div class="card">
+        <strong style="color: var(--navy-900);">③ メガメニューで階層を吸収</strong>
+        <p style="margin-top: 6px;">深い階層は1段で展開。サービスのサブ項目はカード型で並列表示し、優先順位を視覚化。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: News & Lists ====== -->
+<section class="ds" id="lists">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">11</span>
+        <div class="ds-head-tag">News &amp; Lists</div>
+      </div>
+      <div>
+        <h2>お知らせ・セミナー一覧</h2>
+        <p>「日付 → カテゴリ → タイトル」の3段組リストが標準。日付は Inter Tabular、カテゴリは Navy のピル、タイトルは本文ウェイトで列を作り、視線が滑らかに流れる構造に。</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- News list -->
+      <div class="card" style="padding: 0;">
+        <div style="padding: 20px 24px; border-bottom: 1px solid var(--ink-200); display: flex; align-items: baseline; gap: 12px;">
+          <h3 style="margin: 0; font-size: 18px; color: var(--navy-900);">お知らせ</h3>
+          <span class="eyebrow-en solo" style="font-size: 10px;">NEWS</span>
+          <a href="#" style="margin-left: auto; font-size: 12px; color: var(--blue-500); text-decoration: none;">一覧へ →</a>
+        </div>
+        <ul style="list-style: none; margin: 0; padding: 0;">
+          <li style="display: grid; grid-template-columns: 96px 88px 1fr; gap: 14px; padding: 16px 24px; border-bottom: 1px solid var(--ink-100); align-items: baseline;">
+            <span style="font-family: var(--ff-en); font-size: 13px; color: var(--ink-600); font-feature-settings: 'tnum';">2026.04.08</span>
+            <span style="font-size: 11px; padding: 4px 10px; background: var(--navy-700); color: #fff; border-radius: var(--r-pill); text-align: center; font-weight: 700;">お知らせ</span>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; line-height: 1.6;">基準策定メンバーが自ら執筆『令和6年公益法人会計完全ガイド』を刊行します</a>
+          </li>
+          <li style="display: grid; grid-template-columns: 96px 88px 1fr; gap: 14px; padding: 16px 24px; border-bottom: 1px solid var(--ink-100); align-items: baseline;">
+            <span style="font-family: var(--ff-en); font-size: 13px; color: var(--ink-600); font-feature-settings: 'tnum';">2026.03.23</span>
+            <span style="font-size: 11px; padding: 4px 10px; background: var(--navy-700); color: #fff; border-radius: var(--r-pill); text-align: center; font-weight: 700;">お知らせ</span>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; line-height: 1.6;">『新訂版 公益法人一般法人の機関と運営』【上巻】【下巻】を刊行</a>
+          </li>
+          <li style="display: grid; grid-template-columns: 96px 88px 1fr; gap: 14px; padding: 16px 24px; border-bottom: 1px solid var(--ink-100); align-items: baseline;">
+            <span style="font-family: var(--ff-en); font-size: 13px; color: var(--ink-600); font-feature-settings: 'tnum';">2026.03.13</span>
+            <span style="font-size: 11px; padding: 4px 10px; background: var(--navy-700); color: #fff; border-radius: var(--r-pill); text-align: center; font-weight: 700;">お知らせ</span>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; line-height: 1.6;">新刊『公益法人会計の教科書【初級】【中級】』を刊行します</a>
+          </li>
+          <li style="display: grid; grid-template-columns: 96px 88px 1fr; gap: 14px; padding: 16px 24px; align-items: baseline;">
+            <span style="font-family: var(--ff-en); font-size: 13px; color: var(--ink-600); font-feature-settings: 'tnum';">2026.03.06</span>
+            <span style="font-size: 11px; padding: 4px 10px; background: var(--blue-500); color: #fff; border-radius: var(--r-pill); text-align: center; font-weight: 700;">メディア</span>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; line-height: 1.6;">日本経済新聞に当協会の調査データが引用されました</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Seminar list -->
+      <div class="card" style="padding: 0;">
+        <div style="padding: 20px 24px; border-bottom: 1px solid var(--ink-200); display: flex; align-items: baseline; gap: 12px;">
+          <h3 style="margin: 0; font-size: 18px; color: var(--navy-900);">セミナー情報</h3>
+          <span class="eyebrow-en solo" style="font-size: 10px;">SEMINAR</span>
+          <a href="#" style="margin-left: auto; font-size: 12px; color: var(--blue-500); text-decoration: none;">一覧へ →</a>
+        </div>
+        <ul style="list-style: none; margin: 0; padding: 0;">
+          <li style="padding: 16px 24px; border-bottom: 1px solid var(--ink-100);">
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--blue-100); color: var(--navy-700); border-radius: var(--r-pill); font-weight: 700;">会計</span>
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--ink-100); color: var(--ink-700); border-radius: var(--r-pill); font-weight: 600;">大阪開催</span>
+            </div>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; font-weight: 500;">基礎からわかる簿記 — 新任経理担当者向け</a>
+          </li>
+          <li style="padding: 16px 24px; border-bottom: 1px solid var(--ink-100);">
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--blue-100); color: var(--navy-700); border-radius: var(--r-pill); font-weight: 700;">法人運営</span>
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--ink-100); color: var(--ink-700); border-radius: var(--r-pill); font-weight: 600;">ZOOM配信</span>
+            </div>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; font-weight: 500;">事例で学ぶ「公益充実資金」のつくり方・使い方</a>
+          </li>
+          <li style="padding: 16px 24px; border-bottom: 1px solid var(--ink-100);">
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--blue-100); color: var(--navy-700); border-radius: var(--r-pill); font-weight: 700;">法人運営</span>
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--ink-100); color: var(--ink-700); border-radius: var(--r-pill); font-weight: 600;">ZOOM配信</span>
+            </div>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; font-weight: 500;">理事会・総会・評議員会 運営規程の実務</a>
+          </li>
+          <li style="padding: 16px 24px;">
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--blue-100); color: var(--navy-700); border-radius: var(--r-pill); font-weight: 700;">法人運営</span>
+              <span style="font-size: 11px; padding: 3px 9px; background: var(--ink-100); color: var(--ink-700); border-radius: var(--r-pill); font-weight: 600;">ZOOM配信</span>
+            </div>
+            <a href="#" style="color: var(--ink-900); text-decoration: none; font-size: 14px; font-weight: 500;">公益充実資金の制度理解と実務対応</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 class="subhead">Category Tags — カテゴリラベル</h4>
+    <div class="card">
+      <div class="btn-row">
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--navy-700); color: #fff; border-radius: var(--r-pill); font-weight: 700;">お知らせ</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--blue-500); color: #fff; border-radius: var(--r-pill); font-weight: 700;">メディア掲載</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--blue-100); color: var(--navy-700); border-radius: var(--r-pill); font-weight: 700;">会計</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--blue-100); color: var(--navy-700); border-radius: var(--r-pill); font-weight: 700;">法人運営</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--blue-100); color: var(--navy-700); border-radius: var(--r-pill); font-weight: 700;">税務</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--ink-100); color: var(--ink-700); border-radius: var(--r-pill); font-weight: 600;">ZOOM配信</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--ink-100); color: var(--ink-700); border-radius: var(--r-pill); font-weight: 600;">会場開催</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--navy-700); color: #fff; border-radius: var(--r-pill); font-weight: 700;">受付中</span>
+        <span style="font-size: 12px; padding: 4px 12px; background: var(--warning); color: #fff; border-radius: var(--r-pill); font-weight: 700;">締切間近</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Sub-brands ====== -->
+<section class="ds" id="subbrands">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">12</span>
+        <div class="ds-head-tag">Sub-brand Cards</div>
+      </div>
+      <div>
+        <h2>関連事業・サブブランド</h2>
+        <p>シェアコモン200・月刊公益オンライン・全国公益ポータルZ・公益法人会計検定試験・渋谷賞など、傘下の事業をカードで並列展開。共通フォーマットを使うことで「関連事業」と一目で認識できます。</p>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <a href="#" class="card" style="text-decoration: none; padding: 0; overflow: hidden;">
+        <div style="aspect-ratio: 4/3; background: linear-gradient(135deg, var(--navy-800), var(--navy-600)); display: grid; place-items: center; position: relative;">
+          <span style="position:absolute; top:12px; left:12px; font-family: var(--ff-en); font-size: 10px; letter-spacing: .2em; color: var(--blue-300); font-weight: 600;">CORE SERVICE</span>
+          <div style="text-align: center; color: #fff;">
+            <div style="font-size: 38px; font-weight: 900; line-height: 1;">シェアコモン<span style="font-family: var(--ff-en); color: var(--blue-300);">200</span></div>
+            <div style="font-family: var(--ff-jp); font-size: 12px; letter-spacing: .12em; color: var(--blue-300); font-weight: 600; margin-top: 8px;">運営の心強いミカタ</div>
+          </div>
+        </div>
+        <div style="padding: 16px 18px;">
+          <strong style="color: var(--navy-900); font-size: 14px;">専門家200名のシェア型支援</strong>
+          <p class="muted" style="margin: 4px 0 0; font-size: 12px;">月々6,000円〜。5士業が連携。</p>
+        </div>
+      </a>
+
+      <a href="#" class="card" style="text-decoration: none; padding: 0; overflow: hidden;">
+        <div style="aspect-ratio: 4/3; background: linear-gradient(135deg, var(--blue-100), var(--white)); display: grid; place-items: center; position: relative; border-bottom: 1px solid var(--ink-200);">
+          <span style="position:absolute; top:12px; left:12px; font-family: var(--ff-en); font-size: 10px; letter-spacing: .2em; color: var(--blue-500); font-weight: 600;">PUBLICATION</span>
+          <div style="text-align: center;">
+            <div style="font-family: var(--ff-en); font-size: 11px; letter-spacing: .25em; color: var(--blue-500); font-weight: 600;">MONTHLY</div>
+            <div style="font-size: 30px; font-weight: 900; color: var(--navy-900); line-height: 1; margin-top: 6px;">月刊「公益」</div>
+            <div style="margin-top: 8px; font-size: 11px; color: var(--ink-600);">オンライン版 / 紙版</div>
+          </div>
+        </div>
+        <div style="padding: 16px 18px;">
+          <strong style="color: var(--navy-900); font-size: 14px;">専門誌 月刊「公益」</strong>
+          <p class="muted" style="margin: 4px 0 0; font-size: 12px;">専門家による解説記事を毎月配信。</p>
+        </div>
+      </a>
+
+      <a href="#" class="card" style="text-decoration: none; padding: 0; overflow: hidden;">
+        <div style="aspect-ratio: 4/3; background: linear-gradient(135deg, var(--ink-100), var(--white)); display: grid; place-items: center; position: relative; border-bottom: 1px solid var(--ink-200);">
+          <span style="position:absolute; top:12px; left:12px; font-family: var(--ff-en); font-size: 10px; letter-spacing: .2em; color: var(--navy-700); font-weight: 600;">CERTIFICATION</span>
+          <div style="text-align: center;">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--navy-700)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div style="font-size: 18px; font-weight: 800; color: var(--navy-900); line-height: 1.3;">公益法人会計<br/>検定試験</div>
+          </div>
+        </div>
+        <div style="padding: 16px 18px;">
+          <strong style="color: var(--navy-900); font-size: 14px;">体系的に学ぶ会計知識</strong>
+          <p class="muted" style="margin: 4px 0 0; font-size: 12px;">経理担当者の知識証明として。</p>
+        </div>
+      </a>
+
+      <a href="#" class="card" style="text-decoration: none; padding: 0; overflow: hidden;">
+        <div style="aspect-ratio: 4/3; background: linear-gradient(135deg, var(--navy-900), var(--navy-700)); display: grid; place-items: center; position: relative;">
+          <span style="position:absolute; top:12px; left:12px; font-family: var(--ff-en); font-size: 10px; letter-spacing: .2em; color: var(--blue-300); font-weight: 600;">PORTAL</span>
+          <div style="text-align: center; color: #fff;">
+            <div style="font-family: var(--ff-en); font-size: 11px; letter-spacing: .25em; color: var(--blue-300); font-weight: 600;">PORTAL</div>
+            <div style="font-size: 26px; font-weight: 900; line-height: 1.1; margin-top: 6px;">全国公益<br/>ポータル<span style="font-family: var(--ff-en); color: var(--blue-300);">Z</span></div>
+          </div>
+        </div>
+        <div style="padding: 16px 18px;">
+          <strong style="color: var(--navy-900); font-size: 14px;">利用法人様専用サイト</strong>
+          <p class="muted" style="margin: 4px 0 0; font-size: 12px;">予約・購入・相談申込はこちら。</p>
+        </div>
+      </a>
+    </div>
+
+    <h4 class="subhead">Banner — 帯バナー（フッター上部用）</h4>
+    <div class="grid-3">
+      <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 14px; background: linear-gradient(135deg, var(--navy-800), var(--navy-600)); color: #fff; padding: 18px 22px; border-radius: var(--r-md);">
+        <div style="width: 44px; height: 44px; border-radius: var(--r-sm); background: rgba(255,255,255,.1); display: grid; place-items: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+        </div>
+        <div>
+          <div style="font-family: var(--ff-en); font-size: 10px; letter-spacing: .2em; color: var(--blue-300); font-weight: 600;">SEMINAR</div>
+          <strong style="font-size: 15px;">セミナー情報サイト</strong>
+        </div>
+        <span style="margin-left: auto;">→</span>
+      </a>
+      <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--ink-200); color: var(--navy-900); padding: 18px 22px; border-radius: var(--r-md);">
+        <div style="width: 44px; height: 44px; border-radius: var(--r-sm); background: var(--blue-100); color: var(--blue-500); display: grid; place-items: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
+        </div>
+        <div>
+          <div style="font-family: var(--ff-en); font-size: 10px; letter-spacing: .2em; color: var(--blue-500); font-weight: 600;">DICTIONARY</div>
+          <strong style="font-size: 15px;">非営利用語辞典</strong>
+        </div>
+        <span style="margin-left: auto; color: var(--blue-500);">→</span>
+      </a>
+      <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--ink-200); color: var(--navy-900); padding: 18px 22px; border-radius: var(--r-md);">
+        <div style="width: 44px; height: 44px; border-radius: var(--r-sm); background: var(--blue-100); color: var(--blue-500); display: grid; place-items: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-7h6v7"/></svg>
+        </div>
+        <div>
+          <div style="font-family: var(--ff-en); font-size: 10px; letter-spacing: .2em; color: var(--blue-500); font-weight: 600;">FOUNDATION</div>
+          <strong style="font-size: 15px;">じぶんでできる公益法人設立</strong>
+        </div>
+        <span style="margin-left: auto; color: var(--blue-500);">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Contact ====== -->
+<section class="ds" id="contact">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">13</span>
+        <div class="ds-head-tag">Contact Block</div>
+      </div>
+      <div>
+        <h2>お問合せブロック</h2>
+        <p>「電話番号 → 受付時間 → 問合せフォーム」の3点セットを基本に。電話番号は <strong>Inter / Tabular</strong> で大きく組み、視認性とタップしやすさを最優先に。フッター上部・サービスページ最下部で必ず設置。</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; min-height: 220px;">
+        <div style="padding: 36px 40px; background: linear-gradient(135deg, var(--navy-900), var(--navy-700)); color: #fff; position: relative; overflow: hidden;">
+          <div style="position: absolute; right: -40px; bottom: -40px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(123,193,237,.4), transparent 70%); pointer-events: none;"></div>
+          <span class="eyebrow-en solo" style="color: var(--blue-300);">CONTACT</span>
+          <h3 style="margin: 8px 0 4px; font-size: 24px;">お問合せはこちら</h3>
+          <p style="margin: 0 0 20px; color: rgba(255,255,255,.78); font-size: 13px;">運営に関するご相談・資料請求など、お気軽にお問合せください。</p>
+          <a href="tel:0355772023" style="text-decoration: none; color: #fff; display: inline-flex; align-items: baseline; gap: 12px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="position: relative; top: 4px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span style="font-family: var(--ff-en); font-size: 36px; font-weight: 800; letter-spacing: .02em; font-feature-settings: 'tnum';">03-5577-2023</span>
+          </a>
+          <p style="margin: 12px 0 0; font-size: 12px; color: var(--blue-200);">受付時間 平日9:00–17:00（土日祝休み）</p>
+        </div>
+        <div style="padding: 36px 40px; background: var(--white); display: flex; flex-direction: column; justify-content: center; gap: 12px;">
+          <a class="btn btn-primary btn-lg" href="#">新規ご利用に関するお問合せ →</a>
+          <a class="btn btn-outline btn-lg" href="#">資料請求 →</a>
+          <a class="btn btn-link" href="#" style="align-self: flex-start; margin-top: 4px;">その他のお問合せフォーム</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Accessibility (v1.1 §14) ====== -->
+<section class="ds" id="a11y">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">14</span>
+        <div class="ds-head-tag">Accessibility</div>
+      </div>
+      <div>
+        <h2>アクセシビリティ補正</h2>
+        <p>v1.0 の配色を WCAG 2.1 AA（通常文字 4.5:1 / 大文字 3:1）で実測し、満たさない組み合わせを差し替えました。<strong>ここに載っている値が現行</strong>で、v1.0 の値は使いません。Navy 系は全項目良好だったため、補正はアクセント側だけです。</p>
+      </div>
+    </div>
+
+    <table class="ds-table">
+      <thead>
+        <tr><th>用途</th><th>v1.0（実測）</th><th>v1.1 以降（実測）</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CTA地＋白文字</td>
+          <td><span class="chip-color" style="--c:#2F8BD2">Blue 500</span> <span class="ratio ng">3.66 ✕</span></td>
+          <td><span class="chip-color" style="--c:#2276BE">Blue 600 #2276BE</span> <span class="ratio ok">4.77 ✓</span></td>
+        </tr>
+        <tr>
+          <td>テキストリンク（白地）</td>
+          <td><span class="chip-color" style="--c:#4FA6E2">Blue 400</span> <span class="ratio ng">2.66 ✕</span></td>
+          <td><span class="chip-color" style="--c:#234E91">Navy 600 #234E91</span> <span class="ratio ok">8.17 ✓</span></td>
+        </tr>
+        <tr>
+          <td>キャプション・日付（14px）</td>
+          <td><span class="chip-color" style="--c:#7B8497">Ink 500</span> <span class="ratio ng">3.76 ✕</span></td>
+          <td><span class="chip-color" style="--c:#5A6376">Ink 600 #5A6376</span> <span class="ratio ok">6.03 ✓</span></td>
+        </tr>
+        <tr>
+          <td>警告バッジ地＋白文字</td>
+          <td><span class="chip-color" style="--c:#C66B2D">Orange 600</span> <span class="ratio ng">3.79 ✕</span></td>
+          <td><span class="chip-color" style="--c:#B8551E">Orange 700 #B8551E</span> <span class="ratio ok">4.82 ✓</span></td>
+        </tr>
+        <tr>
+          <td>エラー文字（白地）</td>
+          <td><span class="chip-color" style="--c:#D04C4C">#D04C4C</span> <span class="ratio ng">4.36 ✕</span></td>
+          <td><span class="chip-color" style="--c:#C24444">#C24444</span> <span class="ratio ok">5.00 ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top: var(--s-3); font-family: var(--ff-jp);">Blue 500 は「罫・アイコン・24px 以上の大きい図形」の装飾専用に格下げ。Blue 400 はホバー下線とダーク面のテキスト専用、Ink 500 は無効状態と装飾罫専用です。</p>
+
+    <h4 class="subhead">インタラクションの規定</h4>
+    <div class="grid-3">
+      <div class="card">
+        <h4>フォーカスは必ず見える</h4>
+        <p>ボタン・リンク・タブに <code class="tok">outline: 2px solid Blue 600</code> ／ <code class="tok">outline-offset: 2px</code>。入力欄は Blue 600 の枠線＋4px のリング。</p>
+        <div style="margin-top: 14px;"><span class="focus-demo">お問合せ</span></div>
+      </div>
+      <div class="card">
+        <h4>タップは 44×44px 以上</h4>
+        <p>モバイルのボタン・ナビ項目・リスト行リンクは 44px 以上の高さを確保する。文字サイズを上げるのではなく、余白で確保する。</p>
+      </div>
+      <div class="card">
+        <h4>状態は色だけで示さない</h4>
+        <p>「完了・受付中」は Navy 700 を流用するためブランド色と区別できない。<strong>チェック印＋テキストラベルを併記</strong>する（WCAG 1.4.1）。</p>
+        <div style="margin-top: 14px;"><span class="badge-pill"><span class="dot"></span>受付中</span></div>
+      </div>
+    </div>
+
+    <h4 class="subhead">モーション</h4>
+    <div class="grid-2">
+      <div class="card">
+        <h4>演出は入場の1パターンだけ</h4>
+        <p>0.6s / <code class="tok">cubic-bezier(.22,1,.36,1)</code> / 14px 上昇＋フェード。ヒーロー内は 60〜280ms のディレイで順に立ち上げる。カードは hover の 2px 上昇と影のみ。</p>
+      </div>
+      <div class="card">
+        <h4><code class="tok">prefers-reduced-motion</code> で止める</h4>
+        <p>装飾的なアニメーションは <code class="tok">reduce</code> で無効化するか、単純な色変化に置き換える。動きを前提にした情報提示をしない。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Section: Web 実装の規定 (v1.2 §15 / v1.3 §16) ====== -->
+<section class="ds" id="site">
+  <div class="page">
+    <div class="ds-head">
+      <div>
+        <span class="ds-head-num">15 · 16</span>
+        <div class="ds-head-tag">Web Implementation</div>
+      </div>
+      <div>
+        <h2>Web 実装の規定</h2>
+        <p>財団サイト（koueki.or.jp）の実装で確定した規定です。写真ヒーロー・白ハロ・画像比率・トークン名前空間は、グループの他サイトにも同じ形で適用します。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">写真の上のテキストは「白ハロ」で浮かせる</h4>
+    <p style="margin: 0 0 var(--s-4); color: var(--ink-600); font-size: 13px;">写真を全幅背景にして濃紺の文字を直接載せる場合、白いぼかしの縁取り（<code class="tok">text-shadow</code> 4段）で可読性を確保します。<strong>白抜き文字にはしません。</strong>ロゴだけは別ルールで、白いプレートに載せます（§09）。</p>
+    <div class="grid-2">
+      <div>
+        <div class="halo-demo"><div class="halo-text">担い手が減る時代に<br/>公益活動の歩みを止めない</div></div>
+        <p class="muted" style="margin-top: 10px; font-family: var(--ff-jp);">○ <code class="tok">.text-halo</code> あり — 明るい空の上でも輪郭が残る</p>
+      </div>
+      <div>
+        <div class="halo-demo"><div class="halo-plain">担い手が減る時代に<br/>公益活動の歩みを止めない</div></div>
+        <p class="muted" style="margin-top: 10px; font-family: var(--ff-jp);">✕ ハロなし — 明るい部分で沈む</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">ヒーローの構成順</h4>
+    <div class="card">
+      <p style="margin:0">グループ帰属バッジ（Navy 800 のピル / 12px）→ 英字エイブロー → <strong>Serif キャッチ（2行・句読点なし・改行で区切る）</strong>→ リード 16px → 補足 14px → CTA 2つ（Primary ＋ Outline）。文字側には白のフェード（<code class="tok">rgba(255,255,255,.65)</code> → transparent）を重ね、写真上のアウトラインボタンには <code class="tok">rgba(255,255,255,.7)</code> ＋ <code class="tok">backdrop-filter: blur(4px)</code> を敷きます。オレンジのキャッチピルは使いません。</p>
+    </div>
+
+    <h4 class="subhead">画像枠は実比率に合わせる（白帯禁止）</h4>
+    <div class="grid-3">
+      <div class="card">
+        <h4>枠を画像の比率に合わせる</h4>
+        <p>記事タイトル画像は OGP 規格の 1200×630 なので、枠も <code class="tok">aspect-ratio: 1200 / 630</code> にして <code class="tok">object-fit: cover</code> で敷き詰める。</p>
+      </div>
+      <div class="card">
+        <h4><code class="tok">contain</code> は使わない</h4>
+        <p>比率が合わないと上下（左右）に白帯が出て、角丸との間に隙間が見える。比率が混在する画像は cover の軽微なトリミングで吸収する。</p>
+      </div>
+      <div class="card">
+        <h4>読み込み中の下地</h4>
+        <p>白ではなく Blue 100（<code class="tok">#E6F3FB</code>）などの淡色を敷く。白だと画像との継ぎ目が目立つ。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">レイアウトの確定値</h4>
+    <table class="ds-table">
+      <thead><tr><th>項目</th><th>値</th></tr></thead>
+      <tbody>
+        <tr><td>コンテナ</td><td>最大 1240px / 左右余白 20px（〜767px）→ 32px（768px 以上）</td></tr>
+        <tr><td>読み物カラム</td><td>一覧・表・タイムライン 880px ／ 記事本文 768px</td></tr>
+        <tr><td>セクション余白</td><td>上下 64px → 96px（768px 以上）</td></tr>
+        <tr><td>角丸</td><td>カード 16px ／ アイコン枠・人物写真 10px ／ ボタン・バッジはピル</td></tr>
+        <tr><td>影</td><td>常用は <code class="tok">--sh-3</code> のみ。階層は hover の 2px 上昇で出す</td></tr>
+      </tbody>
+    </table>
+
+    <h4 class="subhead">トークン名の衝突を避ける</h4>
+    <div class="grid-2">
+      <div class="card">
+        <h4>独立した名前空間を使う</h4>
+        <p>本書の <code class="tok">--blue-*</code> はユーティリティ CSS 標準のパレットと衝突するため、Web 実装では <code class="tok">accent-600</code>〜<code class="tok">accent-100</code> のように別名で宣言する。Navy / Ink / 影（<code class="tok">shadow-e1</code>〜<code class="tok">e4</code>）も同様。</p>
+      </div>
+      <div class="card">
+        <h4><code class="tok">--color-blue-*</code> を上書きしない</h4>
+        <p>CMS に保存済みのリッチテキストが <code class="tok">text-blue-800</code> のような標準クラスを直接含むことがある。上書きすると既存記事の見た目が黙って変わる。</p>
+      </div>
+    </div>
+
+    <h4 class="subhead">お問合せの導線 — 電話番号の置き場所</h4>
+    <div class="grid-2">
+      <div class="card">
+        <h4>ページ内のお問合せブロック</h4>
+        <p>住所 ＋ <strong>フォーム（Primary）</strong> ＋ <strong>メール（Outline）</strong>。<u>電話番号は載せない</u>。左は Navy 900 → Navy 700 のグラデに白文字、エイブローは Blue 300 に置き換える。</p>
+      </div>
+      <div class="card">
+        <h4>フッター</h4>
+        <p>住所・<strong>電話番号</strong>・メール。電話はここだけに置く。§13 の「電話番号 Inter 36px」は、電話を主動線に据えるページでのみ有効。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="doc-foot">
+  <div class="page">
+    <p>© <strong>全国公益法人協会</strong> · Design System v1.3 — Updated 2026.08<br/>
+    本書はブランド資産の使用方針をまとめたガイドラインです。Web・印刷物の制作時はかならず本書を参照してください。</p>
+  </div>
+</footer>
+
+</body>
+</html>
