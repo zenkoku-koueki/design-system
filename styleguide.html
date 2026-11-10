@@ -927,6 +927,14 @@
   .sp-pager a:hover { background: var(--ink-100); }
   .sp-pager .cur { background: var(--navy-700); color: #fff; }
   .sp-pager .gap { min-width: 32px; text-align: center; color: var(--ink-500); }
+  .sp-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .sp-filter a, .sp-filter span { display: inline-flex; min-height: 44px; align-items: center; padding: 0 16px; border-radius: var(--r-pill); border: 1px solid var(--ink-200); background: #fff; color: var(--ink-700); font-size: 14px; font-weight: 500; text-decoration: none; }
+  .sp-filter a:hover { border-color: var(--navy-600); color: var(--navy-700); }
+  .sp-filter .on { background: var(--navy-700); border-color: var(--navy-700); color: #fff; }
+  .sp-year { font-size: 14px; font-weight: 700; color: var(--ink-700); letter-spacing: .04em; margin-bottom: 12px; }
+  .sp-en { font-family: var(--ff-en); font-variant-numeric: tabular-nums; }
+  .sp-news-fixed li { grid-template-columns: 110px 80px 1fr; }
+  .sp-pill-update { background: var(--blue-100); color: var(--navy-700); }
   .sp-kv { max-width: 880px; overflow-x: auto; border: 1px solid var(--ink-200); border-radius: var(--r-lg); }
   .sp-kv table { width: 100%; border-collapse: collapse; font-size: 15px; }
   .sp-kv tr + tr { border-top: 1px solid var(--ink-200); }
@@ -939,6 +947,7 @@
     .sp-prose h2 { font-size: 20px; }
     .sp-news li { grid-template-columns: auto 1fr; gap: 4px 16px; }
     .sp-news a { grid-column: span 2; }
+    .sp-news-fixed li { grid-template-columns: auto 1fr; }
     .sp-kv th, .sp-kv td { padding: 16px; }
     .sp-stack { grid-template-columns: 1fr; }
   }
@@ -2473,6 +2482,21 @@
         <p class="muted" style="margin-top: 10px;">1つの番号は 44×44px 以上の円。現在のページは Navy 700 の地・白文字でリンクにしない。先頭・末尾・現在の前後だけ出し、間は「…」。1ページだけの一覧では出しません。</p>
       </div>
     </div>
+
+    <h4 class="subhead">一覧の絞り込みと年見出し</h4>
+    <div class="sp-filter" aria-label="カテゴリで絞り込む（見本）">
+      <span class="on" aria-current="page">すべて</span><a href="#">お知らせ</a><a href="#">更新履歴</a>
+    </div>
+    <div class="sp-year"><span class="sp-en">2026</span>年</div>
+    <ul class="sp-news sp-news-fixed">
+      <li><span class="sp-date">2026.10.10</span><span class="sp-pill sp-pill-update">更新履歴</span><a href="#">全国公益AIナビが 0.8.0 にアップデートしました</a></li>
+      <li><span class="sp-date">2026.09.09</span><span class="sp-pill">お知らせ</span><a href="#">資料集を公開しました</a></li>
+    </ul>
+    <div class="sp-year" style="margin-top: 48px;"><span class="sp-en">2025</span>年</div>
+    <ul class="sp-news sp-news-fixed">
+      <li><span class="sp-date">2025.07.01</span><span class="sp-pill">お知らせ</span><a href="#">全国公益AIナビβ版をリリースしました</a></li>
+    </ul>
+    <p class="muted" style="margin-top: 10px;">絞り込みは切り替えるたびに URL が変わるリンク（<code class="tok">?category=update</code>）。選んでいるものは Navy 700 の地・白文字。記事のあるカテゴリだけ出し、2つ未満なら出さない。年見出しは日本時間の公開年。カテゴリの列は 80px に固定して題の頭をそろえる。更新履歴のピルは Blue 100 の地・Navy 700 の文字（§17-9）。</p>
 
     <h4 class="subhead">項目と値の表</h4>
     <div class="sp-kv">
